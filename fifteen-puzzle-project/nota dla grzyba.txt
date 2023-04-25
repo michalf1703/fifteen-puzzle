@@ -1,3 +1,0 @@
-żeby wygenerować sb układanki 
-cmd:
-java -jar puzzlegen.jar
