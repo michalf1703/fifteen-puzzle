@@ -1,5 +1,9 @@
 
-
+"""
+metryka hamminga - jest to metryka, która sprawdza czy dany element jest na swoim miejscu - jeżeli nie jest to zwraca jeden,
+ a jak jest zero, to zwraca zero - wówczas koszty można zsmuować - im wyższa wartość tym gorzej(bo oznacza to,
+ że dużo kafelków nie jest na swojej pozycji
+"""
 def hamming_metric(self):
     """
     Oblicza metrykę odległości Hamminga, czyli liczbę kafelków w niewłaściwej pozycji.
@@ -9,6 +13,11 @@ def hamming_metric(self):
     self.cost = distance
     return distance
 
+"""
+Metryka Manhatan - odległość jest liczona wzdłóż określonych współrzędnych, które są dalej sumowane - 
+w wyniku uzyskuje się odległość - wówczas dla każdego bloczka sumuje się te odległości - i im wyższa jest wartość tej metryki
+ - to jest gorzej - jeżeli odległość jest niewielka to znaczy, że układ jest blisko stanu docelowego.
+"""
 def manhattan_metric(self):
     """
     Oblicza metrykę odległości Manhattanu, która jest sumą odległości każdego pola od jego idealna pozycja.
