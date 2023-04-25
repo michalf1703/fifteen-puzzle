@@ -1,13 +1,20 @@
-import dfs
-import Game
-def print_hi(name):
-    print("No to przenosimy sie na moja gałązke")
+import numpy as np
+import sys
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-    # start_board = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 0, 12], [13, 14, 11, 15]]
-    # game = Game(start_board)
-    # dfs(game, start_board)
 
+#długość znalezionego rozwiązania, liczba stanow odwiedzonych, liczba stanow przetworzonych, maksymalna osiagnieta głębokość rekursji, czas trwania procesu obliczeniowego
+
+lenght_of_the_solution = None
+visited_states = None
+processed_states = None
+max_recursion_depth = None
+time_of_algorithm = None
+
+#argumenty startowe
+if len(sys.argv) > 1:
+    algorithm = sys.argv[1]
+    parameter = sys.argv[2]
+    startFile = sys.argv[3]
+    endFile = sys.argv[4]
+    additionalStats = sys.argv[5]

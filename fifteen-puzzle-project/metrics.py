@@ -1,0 +1,1 @@
+#tutaj trzaśniemy se hamminga i manhattana
