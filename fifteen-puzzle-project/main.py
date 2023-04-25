@@ -1,6 +1,6 @@
 
 def print_hi(name):
-    print("No to lecimy z tym zadankiem")
+    print("No to przenosimy sie na moja gałązke")
 
 
 # Press the green button in the gutter to run the script.
