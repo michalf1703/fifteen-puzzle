@@ -11,9 +11,11 @@ czyli: f(n) = g(n) + h(n)
 """
 
 from queue import PriorityQueue
-import algorithmsOperations as ut
+
 
 #psuedokod
+
+"""
 def aStar(G, s, g, h):
     p = PriorityQueue()
     T = set()
@@ -29,4 +31,4 @@ def aStar(G, s, g, h):
                     f = g(n) + h(n, G)
                     p.put((f, n))
     return "FAILURE"
-
+"""
