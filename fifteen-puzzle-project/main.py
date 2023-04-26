@@ -1,9 +1,15 @@
+import numpy as np
+import sys
 
-def print_hi(name):
-    print("No to lecimy z tym zadankiem")
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+#długość znalezionego rozwiązania, liczba stanow odwiedzonych, liczba stanow przetworzonych, maksymalna osiagnieta głębokość rekursji, czas trwania procesu obliczeniowego
 
+
+#argumenty startowe
+if len(sys.argv) > 1:
+    algorithm = sys.argv[1]
+    parameter = sys.argv[2]
+    startFile = sys.argv[3]
+    endFile = sys.argv[4]
+    additionalStats = sys.argv[5]
