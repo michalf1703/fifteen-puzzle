@@ -27,5 +27,5 @@ class dfs:
         #start algorytmu
         if board.is_goal() is True:
             self.found = True
-            self.solution =
+          #  self.solution =
 
