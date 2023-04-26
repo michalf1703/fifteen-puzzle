@@ -5,11 +5,6 @@ import sys
 
 #długość znalezionego rozwiązania, liczba stanow odwiedzonych, liczba stanow przetworzonych, maksymalna osiagnieta głębokość rekursji, czas trwania procesu obliczeniowego
 
-lenght_of_the_solution = None
-visited_states = None
-processed_states = None
-max_recursion_depth = None
-time_of_algorithm = None
 
 #argumenty startowe
 if len(sys.argv) > 1:
