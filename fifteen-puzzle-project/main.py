@@ -1,8 +1,8 @@
 import sys
-
 import numpy as np
 from puzzleNode import PuzzleNode
 from dfs import dfs
+
 
 algorithm = sys.argv[1]  # wybór algorytmu przeszukiwania podany jako pierwszy argument przy wywołaniu skryptu
 metric = sys.argv[2]  # wybór metryki do heurystyki podany jako drugi argument przy wywołaniu skryptu

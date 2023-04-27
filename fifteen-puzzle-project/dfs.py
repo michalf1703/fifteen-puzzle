@@ -1,6 +1,31 @@
 import time
 
+"""
+=> Omówienie algorytmu przeszukiwania "w głąb" - (ang. depth-first-search).
 
+Graf - musi być to graf skierowany, gdzie krawędzie są skierowane (do tego muszą być etykietowane operacjami - dokładnie operatorami) - jednak nie ma ich na wykresie, jako, że źle to wpływa na czytleność.
+
+Bazowa reprezentacja metody / algorytmu DFS jest jako funkcja rekurencyjna - nie ma z tego potrzeby przechowywania listy stanów otwartych. Jendak wymagana jest lista stanów zamkniętych - jednak w tym przypadku musi być ona globalna (musi być dostępna dla każdego wywołania funkcji).
+"""
+
+#pseudokod:
+"""
+function dfs(G, s)
+	if G.isgoal(s)
+		return SUCCESS
+	S = stack()
+	T = set()
+	S.push(s)
+	while ~S.isempty()
+		v = S.pop()
+		T.add(v)
+		for n in reverse(G.neighbours(n))
+			if G.isgoal() 
+				return SUCCESS
+			if ~T.has(n) and ~S.has(n)
+				S.push(n)
+	return FAILURE
+	"""
 class dfs:
 
     def __init__(self):
