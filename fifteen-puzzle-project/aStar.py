@@ -5,7 +5,7 @@ Algorytm A* : algorytm działa na takiej zasadzie, że umieszcza on na liście s
 
 Algorytm A* nie porządkuje stanów w kolejce tylko i wyłącznie za pomocą funkcji heurysytcznej
 - tylko funkcji oceny -> bierze ona pod uwagę wartość funkcji heurystycznej oraz dotychczasowy koszt
- dotarcia do bieżącego wierchołka od stanu początkowego.
+ dotarcia do bieżącego wierzchołka od stanu początkowego.
 
 czyli: f(n) = g(n) + h(n)
 """
