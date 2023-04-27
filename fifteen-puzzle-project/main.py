@@ -18,10 +18,11 @@ visited_states = None
 processed_states = None
 algorithm_time = None
 max_recursion = None
+
 if sys.argv[1] == "dfs":  # jeśli wybrany algorytm to DFS, to wykonujemy poniższy blok kodu
     dfs = dfs()  # utworzenie instancji obiektu klasy dfs (implementacja algorytmu DFS)
     result = dfs.dfs_start(puzzle)  # uruchomienie algorytmu DFS i zwrócenie znalezionego rozwiązania
-    algorithm_time = dfs.algorithm_time()  # odczytanie czasu wykonania algorytmu DFS
+    algorithm_time = dfs.get_algorithm_time()  # odczytanie czasu wykonania algorytmu DFS
     visited_states, processed_states = dfs.states_counter()  # odczytanie liczby odwiedzonych i przetworzonych stanów przez algorytm DFS
     max_recursion = dfs.recursion_reached()  # odczytanie maksymalnej głębokości rekursji osiągniętej przez algorytm DFS
 
