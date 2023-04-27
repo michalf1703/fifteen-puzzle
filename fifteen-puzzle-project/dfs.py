@@ -1,42 +1,54 @@
-import board as a_operations
-class Dfs:
+import time
+
+
+class dfs:
+
     def __init__(self):
-        self.visited_states = 1  # liczba odwiedzonych stanów
-        self.reached_depth = 0  # maksymalna osiągnięta głębokość przeszukiwania
-        self.found = False  # flaga wskazująca, czy znaleziono rozwiązanie
-        self.processed_states = {}  # słownik przechowujący informacje o przetworzonych stanach
-        self.solution = ''  # znalezione rozwiązanie
+        self.path = ""
+        self.visited = {}
+        self.max_depth = 20
+        self.visited_states = 1
+        self.processed_states = 0
+        self.elapsed_time = 0
+        self.max_recursion_reached = 0
 
-    def solve(self, board, max_depth, last_move, solution, order):
-        # Przerywamy przeszukiwanie, jeśli przekroczona zostanie maksymalna głębokość
-        if board.depth > max_depth:
-            return
+    def dfs_start(self, board):
+        star_time = time.time_ns()
+        result = self.dfs_solve(board)
+        self.elapsed_time = (time.time_ns() - star_time) / (10 ** 6)
+        return result
 
-        # Aktualizujemy maksymalną osiągniętą głębokość
-        if self.reached_depth < board.depth:
-            self.reached_depth = board.depth
+    def dfs_solve(self, board):
+        self.processed_states += 1
+        if board.depth > self.max_depth:
+            return None
+        if board.depth >= self.max_recursion_reached:
+            self.max_recursion_reached = board.depth
 
-        # Dodajemy ruch do rozwiązania
-        solution += last_move
+        if board.is_solved():
+            return self.path
 
-        # Sprawdzamy, czy osiągnęliśmy stan końcowy
-        if board.check_board() is True:
-            self.found = True
-            self.solution = solution  # zapisujemy rozwiązanie
-            return solution
+        self.visited[
+            board.__hash__()] = board.depth  # dodajemy hasha do visited jak klucz, wartoscia jest dlugosc sciezki
+        board.move()
+        for neighbor in board.get_neighbors():  # dla kazdego sasiada (dastepnego ruchu) przechodzimy petle
+            self.visited_states += 1
+            if (neighbor.__hash__() in self.visited and neighbor.depth < self.visited[
+                neighbor.__hash__()]) or neighbor.__hash__() not in self.visited:
+                # jesli dany stan jest w visited,
+                # ale dlugosc sciezki do niego jest krotsza niz ta w visited to i tak odwiedzamy ten stan
+                self.path += neighbor.last_move
+                result = self.dfs_solve(neighbor)
+                if result is not None:
+                    return result
+                self.path = self.path[:-1]
+        return None
 
-        # Wykonujemy dostępne ruchy
-        moves = a_operations.next_moves_in_order(order, board)
-        self.visited_states += len(moves)  # aktualizujemy liczbę odwiedzonych stanów
-        for move in moves:
-            new_state = board.__deepcopy__()  # tworzymy kopię aktualnego stanu
-            zero_index = a_operations.find_zero(new_state)  # znajdujemy indeks zera
-            a_operations.make_move(new_state, move, zero_index)  # wykonujemy ruch
-            new_state.depth += 1  # aktualizujemy głębokość
-            if (new_state.__hash__() not in self.processed_states) or \
-                    (self.processed_states[new_state.__hash__()] > new_state.depth):
-                self.processed_states[new_state.__hash__()] = new_state.depth
-                self.solve(new_state, max_depth, move, solution, order)
-            if self.found:
-                return
-        return
+    def states_counter(self):
+        return self.visited_states, self.processed_states
+
+    def algorithm_time(self):
+        return round(self.elapsed_time, 3)
+
+    def recursion_reached(self):
+        return self.max_recursion_reached
