@@ -1,31 +1,43 @@
-import numpy as np
 import sys
-import board
-import dfs
-import fileOperations as read
-import fileOperations as save
-import time
+
+import numpy as np
+from puzzleNode import PuzzleNode
+from dfs import dfs
+
+algorithm = sys.argv[1]
+metric = sys.argv[2]
+with open(f"puzzles/{sys.argv[3]}", "r") as f:
+    rows, cols = np.fromfile(f, dtype=int, count=2, sep=" ")
+    data = np.fromfile(f, dtype=int, count=rows * cols, sep=" ").reshape((rows, cols))
+
+list_puzzle = data.flatten().tolist()  # zamiana z numpy array na liste
+puzzle = PuzzleNode(cols, rows, list_puzzle, metric)
+
+result = None
+visited_states = None
+processed_states = None
+algorithm_time = None
+max_recursion = None
+if sys.argv[1] == "dfs":
+    dfs = dfs()
+    result = dfs.dfs_start(puzzle)
+    algorithm_time = dfs.algorithm_time()
+    visited_states, processed_states = dfs.states_counter()
+    max_recursion = dfs.recursion_reached()
 
 
+with open(f"{sys.argv[4]}", "w") as output_file:
+    if result is not None:
+        output_file.write(f"{len(result)}\n{result}")
+    else:
+        output_file.write("-1")
 
-
-#argumenty startowe
-if len(sys.argv) > 1:
-    algorithm = sys.argv[1]
-    parameter = sys.argv[2]
-    startFile = sys.argv[3]
-    endFile = sys.argv[4]
-    additionalStats = sys.argv[5]
-
-board_tab = read.read_file(startFile)
-board_width = read.get_width(startFile)
-board_height = read.get_height(startFile)
-board = board.Board(board_width,board_height,board_tab)
-
-if algorithm == "dfs":
-    solver = dfs.dfs()
-    solvingStartTime = time.time_ns()
-    solutionSequence = solver.solve(board,21,"","", parameter)
-    solvingTime = time.time_ns() - solvingStartTime
-    solvingTime = solvingTime / 1000000
-    save.save_to_file(solver.found, endFile, additionalStats, solver.solution, solver.visitedStates, solver.processedStates.__len__(), solver.reachedDepth, solvingTime)
+with open(f"{sys.argv[5]}", "w") as output_file:
+    if result is not None:
+        output_file.write(f"{len(result)}\n")
+    else:
+        output_file.write("-1\n")
+    output_file.write(f"{visited_states}\n")
+    output_file.write(f"{processed_states}\n")
+    output_file.write(f"{max_recursion}\n")
+    output_file.write(f"{algorithm_time}")
