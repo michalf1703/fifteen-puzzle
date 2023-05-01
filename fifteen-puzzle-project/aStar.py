@@ -36,7 +36,7 @@ def aStar(G, s, g, h):
 import time
 from queue import PriorityQueue
 
-class AStar:
+class aStar:
     def __init__(self, board):
         self.board = board
         self.visited_states = 0  # Liczba odwiedzonych stanów
@@ -88,3 +88,6 @@ class AStar:
 
     def count_time(self):
         return round(self.elapsed_time, 3)
+
+    def recursion_reached(self):
+        return self.max_depth_reached
