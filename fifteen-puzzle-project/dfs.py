@@ -27,16 +27,15 @@ function dfs(G, s)
 	return FAILURE
 	"""
 class dfs:
-
     def __init__(self):
         # Inicjalizacja zmiennych używanych w algorytmie DFS
-        self.path = ""  # zmienna przechowująca ścieżkę do rozwiązania
-        self.visited = {}  # słownik przechowujący odwiedzone stany, gdzie klucz to hash stanu, wartość to długość ścieżki
-        self.max_depth = 20  # maksymalna dozwolona głębokość przeszukiwania
-        self.visited_states = 1  # liczba odwiedzonych stanów
-        self.processed_states = 0  # liczba przetworzonych stanów
-        self.elapsed_time = 0  # czas wykonania algorytmu
-        self.max_recursion_reached = 0  # maksymalna głębokość rekursji, osiągnięta podczas działania algorytmu
+        self.path = ""                                      # zmienna przechowująca ścieżkę do rozwiązania
+        self.visited = {}                                   # słownik przechowujący odwiedzone stany, gdzie klucz to hash stanu, wartość to długość ścieżki
+        self.max_depth = 20                                 # maksymalna dozwolona głębokość przeszukiwania
+        self.visited_states = 1                             # liczba odwiedzonych stanów
+        self.processed_states = 0                           # liczba przetworzonych stanów
+        self.elapsed_time = 0                               # czas wykonania algorytmu
+        self.max_recursion_reached = 0                      # maksymalna głębokość rekursji, osiągnięta podczas działania algorytmu
 
     def dfs_start(self, board):
         """
@@ -44,53 +43,31 @@ class dfs:
         :param board: początkowy stan planszy
         :return: ścieżka do rozwiązania
         """
-        start_time = time.time()  # mierzymy czas wykonania algorytmu
-        result = self.dfs_solve(board)  # uruchamiamy funkcję rozwiązującą problem
-        self.elapsed_time = time.time() - start_time  # obliczamy czas wykonania algorytmu
+        start_time = time.time()                            # mierzymy czas wykonania algorytmu
+        result = self.dfs_solve(board)                      # uruchamiamy funkcję rozwiązującą problem
+        self.elapsed_time = time.time() - start_time        # obliczamy czas wykonania algorytmu
         return result
 
     def dfs_solve(self, board):
-        # Zwiększ licznik przetworzonych stanów
-        self.processed_states += 1
-
-        # Sprawdź, czy aktualna głębokość przeszukiwania nie przekracza maksymalnej
-        if board.depth > self.max_depth:
+        self.processed_states += 1                          # Zwiększ licznik przetworzonych stanów
+        if board.depth > self.max_depth:                    # Sprawdź, czy aktualna głębokość przeszukiwania nie przekracza maksymalnej
             return None
-
-        # Sprawdź, czy aktualna głębokość przekroczyła maksymalną osiągniętą głębokość
-        if board.depth >= self.max_recursion_reached:
+        if board.depth >= self.max_recursion_reached:       # Sprawdź, czy aktualna głębokość przekroczyła maksymalną osiągniętą głębokość
             self.max_recursion_reached = board.depth
-
-        # Sprawdź, czy plansza jest rozwiązana
-        if board.is_solved():
+        if board.is_solved():                               # Sprawdź, czy plansza jest rozwiązana
             return self.path
-
-        # Dodaj hasz planszy do odwiedzonych, z kluczem jako haszem i wartością jako długość ścieżki
-        self.visited[board.__hash__()] = board.depth
-
-        # Wykonaj ruch na planszy i znajdź jej sąsiadów
-        board.move()
-        for neighbor in board.get_neighbors():
-            # Zwiększ licznik odwiedzonych stanów
+        self.visited[board.__hash__()] = board.depth        # Dodaj hasz planszy do odwiedzonych, z kluczem jako haszem i wartością jako długość ścieżki
+        board.move()                                        # Wykonaj ruch na planszy i znajdź jej sąsiadów
+        for neighbor in board.get_neighbors():              # Zwiększ licznik odwiedzonych stanów
             self.visited_states += 1
-
-            # Jeśli sąsiad już był odwiedzony i ścieżka do niego jest krótsza, to pomijamy ten stan
-            # W przeciwnym przypadku odwiedzamy ten stan
-            if (neighbor.__hash__() in self.visited and neighbor.depth < self.visited[
-                neighbor.__hash__()]) or neighbor.__hash__() not in self.visited:
-                # Dodaj ostatni ruch planszy do ścieżki
-                self.path += neighbor.last_move
-
-                # Rekurencyjnie rozwiąż planszę z sąsiadem
-                result = self.dfs_solve(neighbor)
+            if (neighbor.__hash__() in self.visited and neighbor.depth < self.visited[      # Jeśli sąsiad już był odwiedzony i ścieżka do niego jest krótsza, to pomijamy ten stan
+                neighbor.__hash__()]) or neighbor.__hash__() not in self.visited:           # W przeciwnym przypadku odwiedzamy ten stan
+                self.path += neighbor.last_move                                             # Dodaj ostatni ruch planszy do ścieżki
+                result = self.dfs_solve(neighbor)                                           # Rekurencyjnie rozwiąż planszę z sąsiadem
                 if result is not None:
                     return result
-
-                # Usuń ostatni ruch z ścieżki
-                self.path = self.path[:-1]
-
-        # Zwróć wartość None, gdy nie znaleziono rozwiązania
-        return None
+                self.path = self.path[:-1]                                                  # Usuń ostatni ruch z ścieżki
+        return None                                                                         # Zwróć wartość None, gdy nie znaleziono rozwiązania
 
     def states_counter(self):
         """
