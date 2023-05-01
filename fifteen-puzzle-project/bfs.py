@@ -34,7 +34,7 @@ import time
 from collections import deque
 
 
-class BFS:
+class bfs:
     def __init__(self, board):
         self.board = board
         self.visited = set()  # zbiór odwiedzonych stanów
