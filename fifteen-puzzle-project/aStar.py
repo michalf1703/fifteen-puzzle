@@ -70,7 +70,7 @@ class aStar:
             for neighbor in current.get_neighbors():
                 self.visited_states += 1                     # Zwiększamy liczbę odwiedzonych stanów
                 if (neighbor.__hash__() in closed_set and neighbor.depth < closed_set[neighbor.__hash__()]) or neighbor.__hash__() not in closed_set:
-                    cost = neighbor.depth + neighbor.get_heuristic_cost()  # Obliczamy koszt danego stanu
+                    cost = neighbor.depth + neighbor.get_metric_cost()  # Obliczamy koszt danego stanu
                     board_and_cost = (cost, neighbor)
                     is_in_queue = False
                     for item in open_set.queue:
