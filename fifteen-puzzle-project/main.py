@@ -22,6 +22,7 @@ processed_states = None
 algorithm_time = None
 max_recursion = None
 
+
 if sys.argv[1] == "dfs":                                        # jeśli wybrany algorytm to DFS, to wykonujemy poniższy blok kodu
     dfs = dfs()                                                 # utworzenie instancji obiektu klasy dfs (implementacja algorytmu DFS)
     result = dfs.dfs_start(puzzle)                              # uruchomienie algorytmu DFS i zwrócenie znalezionego rozwiązania
@@ -31,7 +32,7 @@ if sys.argv[1] == "dfs":                                        # jeśli wybrany
 
 elif sys.argv[1] == "bfs":                                      # jeśli wybrany algorytm to bfs, to wykonujemy poniższy blok kodu
     bfs = bfs(puzzle)                                           # utworzenie instancji obiektu klasy bds (implementacja algorytmu bfs)
-    algorithm_result = bfs.bfs_solve()                          # uruchomienie algorytmu bfs i zwrócenie znalezionego rozwiązania
+    result = bfs.bfs_solve()                                    # uruchomienie algorytmu bfs i zwrócenie znalezionego rozwiązania
     algorithm_time = bfs.get_elapsed_time()                     # odczytanie czasu wykonania algorytmu bfs
     visited_states, processed_states = bfs.get_states_count()   # odczytanie liczby odwiedzonych i przetworzonych stanów przez algorytm bfs
     max_recursion = bfs.get_max_depth_reached()                 # odczytanie maksymalnej głębokości rekursji osiągniętej przez algorytm bfs
@@ -39,7 +40,7 @@ elif sys.argv[1] == "bfs":                                      # jeśli wybrany
 
 elif sys.argv[1] == "astr":                                     # jeśli wybrany algorytm to A*, to wykonujemy poniższy blok kodu
     astr = aStar(puzzle)                                        # utworzenie instancji obiektu klasy A* (implementacja algorytmu A*)
-    algorithm_result = astr.solve()                             # uruchomienie algorytmu A* i zwrócenie znalezionego rozwiązania
+    result = astr.solve()                                       # uruchomienie algorytmu A* i zwrócenie znalezionego rozwiązania
     algorithm_time = astr.count_time()                          # odczytanie czasu wykonania algorytmu A*
     visited_states, processed_states = astr.count_states()      # odczytanie liczby odwiedzonych i przetworzonych stanów przez algorytm A*
     max_recursion = astr.recursion_reached()                    # odczytanie maksymalnej głębokości rekursji osiągniętej przez algorytm A*
