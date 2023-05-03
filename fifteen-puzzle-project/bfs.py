@@ -13,21 +13,22 @@
 
 #pseudokod
 """
-function dfs(G, s)
-	if G.isgoal(s)
-		return SUCCESS
-	S = stack()
-	T = set()
-	S.push(s)
-	while ~S.isempty()
-		v = S.pop()
-		T.add(v)
-		for n in reverse(G.neighbours(n))
-			if G.isgoal()
-				return SUCCESS
-			if ~T.has(n) and ~S.has(n)
-				S.push(n)
-	return FAILURE
+function bfs(G, s):
+    if G.isGoal(s):
+        return SUCCESS
+    queue = queue()
+    visited = set()         # Zbiór odwiedzonych wierzchołków
+    queue.enqueue(s)
+    visited.add(s)
+    while not queue.isEmpty():
+        v = queue.dequeue()
+        for n in G.neighbours(v):
+            if n not in visited:
+                if G.isGoal(n):
+                    return SUCCESS
+                queue.enqueue(n)
+                visited.add(n)
+    return FAILURE
 """
 
 import time
@@ -44,25 +45,33 @@ class bfs:
         self.max_depth_reached = 0                      # maksymalna głębokość, na którą zszedł algorytm
 
     def bfs_solve(self):
-        start_time = time.time_ns()                                     # czas rozpoczęcia działania algorytmu
-        queue = deque([(self.board, "")])                               # kolejka stanów do odwiedzenia
-        self.visited.add(self.board.__hash__())                         # dodanie stanu początkowego do odwiedzonych
+        start_time = time.time_ns()  # Pobranie czasu rozpoczęcia działania algorytmu
+        queue = deque([(self.board, "")])  # Utworzenie kolejki stanów do odwiedzenia
+        current, path = queue.popleft()  # Pobranie pierwszego elementu z kolejki (ten fragment kodu jest zbędny, możemy usunąć ten wiersz)
+        if self.board.is_solved():  # Sprawdzenie, czy stan początkowy jest już rozwiązaniem
+            self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczenie czasu wykonania
+            return path  # Zwrócenie pustego ciągu, ponieważ już jesteśmy w stanie końcowym
+        queue = deque()  # Zainicjowanie pustej kolejki
+        visited = set()  # Zainicjowanie pustego zbioru odwiedzonych stanów
+        queue.append((self.board, ""))  # Dodanie stanu początkowego do kolejki z pustym ciągiem ruchów
+        visited.add(self.board.__hash__())  # Dodanie stanu początkowego do zbioru odwiedzonych
         while queue:
-            current, path = queue.popleft()                             # pobranie stanu z kolejki
-            self.processed_states += 1
-            if current.is_solved():
-                self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)  # obliczenie czasu wykonania
-                return path
-            current.move()                                               # generowanie ruchów dla danego stanu
-            for neighbor in current.get_neighbors():
-                self.visited_states += 1                                 # zwiększenie liczby odwiedzonych stanów
-                if neighbor.__hash__() not in self.visited:
-                    self.visited.add(neighbor.__hash__())                # dodanie stanu do zbioru odwiedzonych
-                    queue.append((neighbor, path + neighbor.last_move))  # dodanie stanu do kolejki
-                    if neighbor.depth > self.max_depth_reached:
-                        self.max_depth_reached = neighbor.depth          # aktualizacja maksymalnej głębokości
-        self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)
-        return None
+            current, path = queue.popleft()  # Pobranie pierwszego elementu z kolejki
+            self.processed_states += 1  # Zwiększenie liczby przetworzonych stanów
+            current.move()  # Wygenerowanie możliwych ruchów dla danego stanu
+            for neighbor in current.get_neighbors():  # Przejście po sąsiadach danego stanu
+                self.visited_states += 1  # Zwiększenie liczby odwiedzonych stanów
+                if neighbor.__hash__() not in visited:  # Sprawdzenie, czy dany sąsiad nie był jeszcze odwiedzony
+                    if neighbor.is_solved():  # Sprawdzenie, czy dany sąsiad jest stanem końcowym
+                        self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczenie czasu wykonania
+                        return path + neighbor.last_move  # Zwrócenie ciągu ruchów prowadzących do rozwiązania
+                    queue.append((neighbor,
+                                  path + neighbor.last_move))  # Dodanie danego sąsiada do kolejki z aktualnym ciągiem ruchów
+                    visited.add(neighbor.__hash__())  # Dodanie danego sąsiada do zbioru odwiedzonych
+                    if neighbor.depth > self.max_depth_reached:  # Aktualizacja maksymalnej głębokości przeszukiwania
+                        self.max_depth_reached = neighbor.depth
+        self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczenie czasu wykonania
+        return None  # Zwrócenie None, ponieważ nie udało się znaleźć rozwiązania
 
     def get_states_count(self):
         """
