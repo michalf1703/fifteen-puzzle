@@ -45,13 +45,13 @@ elif sys.argv[1] == "astr":                                     # jeśli wybrany
     visited_states, processed_states = astr.count_states()      # odczytanie liczby odwiedzonych i przetworzonych stanów przez algorytm A*
     max_recursion = astr.recursion_reached()                    # odczytanie maksymalnej głębokości rekursji osiągniętej przez algorytm A*
 
-with open(f"{sys.argv[4]}", "w") as output_file:                # otwarcie pliku wynikowego, do którego zapisane zostaną rozwiązania lub komunikaty o błędach
+with open(f"solutions/{sys.argv[4]}", "w") as output_file:                # otwarcie pliku wynikowego, do którego zapisane zostaną rozwiązania lub komunikaty o błędach
     if result is not None:                                      # jeśli udało się znaleźć rozwiązanie, to zapisujemy je do pliku
         output_file.write(f"{len(result)}\n{result}")           # zapis długości rozwiązania i samego rozwiązania
     else:                                                       # jeśli nie udało się znaleźć rozwiązania, to zapisujemy informację o błędzie do pliku
         output_file.write("-1")
 
-with open(f"{sys.argv[5]}", "w") as output_file:                # Otwieramy plik wyjściowy, w którym zapiszemy wyniki.
+with open(f"solutions/{sys.argv[5]}", "w") as output_file:                # Otwieramy plik wyjściowy, w którym zapiszemy wyniki.
     if result is not None:                                      # W zależności od wartości zmiennej "result" wypisujemy długość ścieżki lub "-1".
         output_file.write(f"{len(result)}\n")
     else:

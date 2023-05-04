@@ -49,25 +49,28 @@ class dfs:
         return result
 
     def dfs_solve(self, board):
-        self.processed_states += 1                          # Zwiększ licznik przetworzonych stanów
-        if board.depth > self.max_depth:                    # Sprawdź, czy aktualna głębokość przeszukiwania nie przekracza maksymalnej
-            return None
-        if board.depth >= self.max_recursion_reached:       # Sprawdź, czy aktualna głębokość przekroczyła maksymalną osiągniętą głębokość
-            self.max_recursion_reached = board.depth
-        if board.is_solved():                               # Sprawdź, czy plansza jest rozwiązana
-            return self.path
-        self.visited[board.__hash__()] = board.depth        # Dodaj hasz planszy do odwiedzonych, z kluczem jako haszem i wartością jako długość ścieżki
-        board.move()                                        # Wykonaj ruch na planszy i znajdź jej sąsiadów
-        for neighbor in board.get_neighbors():              # Zwiększ licznik odwiedzonych stanów
-            self.visited_states += 1
-            if (neighbor.__hash__() in self.visited and neighbor.depth < self.visited[      # Jeśli sąsiad już był odwiedzony i ścieżka do niego jest krótsza, to pomijamy ten stan
-                neighbor.__hash__()]) or neighbor.__hash__() not in self.visited:           # W przeciwnym przypadku odwiedzamy ten stan
-                self.path += neighbor.last_move                                             # Dodaj ostatni ruch planszy do ścieżki
-                result = self.dfs_solve(neighbor)                                           # Rekurencyjnie rozwiąż planszę z sąsiadem
+        self.processed_states += 1                                  # Licznik odwiedzonych stanów planszy
+        if self.max_depth is not None and board.depth > self.max_depth:
+            return None                                             # Jeśli osiągnięto maksymalną głębokość i plansza przekracza ją, to zwróć None
+        if board.depth >= self.max_recursion_reached:
+            self.max_recursion_reached = board.depth                # Aktualizacja największej dotychczasowej głębokości rekursji
+        if board.is_solved():
+            return self.path                                        # Jeśli plansza jest rozwiązana, zwróć ścieżkę prowadzącą do rozwiązania
+        self.visited[board.__hash__()] = board.depth                # Dodaj planszę do odwiedzonych stanów
+        board.move()                                                # Przejście do następnego stanu planszy
+        for neighbor in board.get_neighbors():
+            self.visited_states += 1                                # Zwiększenie liczby odwiedzonych stanów planszy
+            # Sprawdzenie, czy sąsiednia plansza już została odwiedzona i czy ma mniejszą głębokość,
+            # jeśli tak, to nie wchodzimy do niej ponownie
+            if (neighbor.__hash__() in self.visited and neighbor.depth < self.visited[
+                neighbor.__hash__()]) or neighbor.__hash__() not in self.visited:
+                self.path += neighbor.last_move                     # Dodaj ostatni ruch do ścieżki
+                result = self.dfs_solve(neighbor)                   # Rekurencyjne wywołanie dfs_solve dla sąsiedniej planszy
                 if result is not None:
-                    return result
-                self.path = self.path[:-1]                                                  # Usuń ostatni ruch z ścieżki
-        return None                                                                         # Zwróć wartość None, gdy nie znaleziono rozwiązania
+                    return result                                   # Jeśli udało się znaleźć rozwiązanie, zwróć ścieżkę prowadzącą do rozwiązania
+                self.path = self.path[:-1]  # Usuń ostatni ruch z ścieżki
+        return None  # Jeśli nie udało się znaleźć rozwiązania, zwróć None
+
 
     def states_counter(self):
         """
