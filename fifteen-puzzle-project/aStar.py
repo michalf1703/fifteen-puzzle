@@ -53,7 +53,6 @@ class aStar:
             current = open_set.get()[1]                     # Wyjmujemy węzeł z najniższym kosztem
             if current.depth >= self.max_depth_reached:
                 self.max_depth_reached = current.depth      # Aktualizujemy wartość największej osiągniętej głębokości
-
             self.processed_states += 1                      # Zwiększamy liczbę przetworzonych stanów
             closed_set[current.__hash__()] = current.depth  # Dodajemy aktualny stan do słownika odwiedzonych
 
