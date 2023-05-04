@@ -47,7 +47,7 @@ class bfs:
     def bfs_solve(self):
         start_time = time.time_ns()  # Pobranie czasu rozpoczęcia działania algorytmu
         queue = deque([(self.board, "")])  # Utworzenie kolejki stanów do odwiedzenia
-        current, path = queue.popleft()  # Pobranie pierwszego elementu z kolejki (ten fragment kodu jest zbędny, możemy usunąć ten wiersz)
+        current, path = queue.popleft()  # Pobranie pierwszego elementu z kolejki (ten wiersz jest potrzebny tylko w przypadku, gdy wczytamy poprawna tablice)
         if self.board.is_solved():  # Sprawdzenie, czy stan początkowy jest już rozwiązaniem
             self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczenie czasu wykonania
             return path  # Zwrócenie pustego ciągu, ponieważ już jesteśmy w stanie końcowym

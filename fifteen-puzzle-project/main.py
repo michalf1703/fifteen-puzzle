@@ -8,7 +8,7 @@ from aStar import aStar
 
 algorithm = sys.argv[1]                                         # wybór algorytmu przeszukiwania podany jako pierwszy argument przy wywołaniu skryptu
 metric = sys.argv[2]                                            # wybór metryki do heurystyki podany jako drugi argument przy wywołaniu skryptu
-with open(f"puzzles/{sys.argv[3]}", "r") as f:                  # otwarcie pliku z puzzlem do rozwiązania
+with open(f"{sys.argv[3]}", "r") as f:                  # otwarcie pliku z puzzlem do rozwiązania
     rows, cols = np.fromfile(f, dtype=int, count=2, sep=" ")    # odczytanie wymiarów planszy z pliku
     # odczytanie planszy z pliku i przekształcenie jej do postaci macierzy numpy
     data = np.fromfile(f, dtype=int, count=rows * cols, sep=" ").reshape((rows, cols))
