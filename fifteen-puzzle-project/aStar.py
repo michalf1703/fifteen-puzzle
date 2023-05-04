@@ -15,21 +15,21 @@ czyli: f(n) = g(n) + h(n)
 #psuedokod
 
 """
-def aStar(G, s, g, h):
-    p = PriorityQueue()
-    T = set()
-    p.put((0, s))
-    while not p.empty():
-        _, v = p.get()
-        if v not in T:
-            if G.isGoal(v):
-                return "SUCCESS"
-            T.add(v)
-            for n in G.neighbours(v):
-                if n not in T:
-                    f = g(n) + h(n, G)
-                    p.put((f, n))
-    return "FAILURE"
+function aStar(G, s):
+	p = priorityQueue()
+	T = set()
+	p.insert(s, 0)
+	while ~p.isEmpty():
+		v = p.pull()
+		if ~T.has(v):
+			if G.isGoal(v):
+				return SUCCESS
+			T.add(v)
+			for n in G.neighbours(v)
+			if ~T.has(n)
+				f = g(n) + h(n, G)
+				p.insert(n , f)
+	return FAILURE
 """
 
 
@@ -55,7 +55,6 @@ class aStar:
                 self.max_depth_reached = current.depth      # Aktualizujemy wartość największej osiągniętej głębokości
             self.processed_states += 1                      # Zwiększamy liczbę przetworzonych stanów
             closed_set[current.__hash__()] = current.depth  # Dodajemy aktualny stan do słownika odwiedzonych
-
             if current.is_solved():
                 path = ""
                 while current.last_move != "":              # Przechodzimy po rodzicach w celu odnalezienia rozwiązania
@@ -64,7 +63,6 @@ class aStar:
                 reversed_path = path[::-1]                  # Odwracamy scieżkę, aby otrzymać poprawny wynik
                 self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczamy czas wykonania algorytmu
                 return reversed_path
-
             current.move()
             for neighbor in current.get_neighbors():
                 self.visited_states += 1                     # Zwiększamy liczbę odwiedzonych stanów
@@ -78,7 +76,6 @@ class aStar:
                             break
                     if not is_in_queue:
                         open_set.put((cost, neighbor))
-
         self.elapsed_time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczamy czas wykonania algorytmu
         return None
 
