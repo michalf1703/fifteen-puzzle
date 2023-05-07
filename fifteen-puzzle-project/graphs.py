@@ -120,6 +120,115 @@ def astar_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.savefig('./graphs/' + name_file)
 
 
+def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
+
+    plt.clf()
+    # Inicjalizacja list z wynikami sum i średnich dla poszczególnych wzorców
+    sum_RDUL = [0.0] * 8
+    sum_RDLU = [0.0] * 8
+    sum_DRUL = [0.0] * 8
+    sum_DRLU = [0.0] * 8
+    sum_LUDR = [0.0] * 8
+    sum_LURD = [0.0] * 8
+    sum_ULDR = [0.0] * 8
+    sum_ULRD = [0.0] * 8
+    avg_RDUL_table = []
+    avg_RDLU_table = []
+    avg_DRUL_table = []
+    avg_DRLU_table = []
+    avg_LUDR_table = []
+    avg_LURD_table = []
+    avg_ULDR_table = []
+    avg_ULRD_table = []
+
+    rdul = [0.0] * 7
+    rdlu = [0.0] * 7
+    drul = [0.0] * 7
+    drlu = [0.0] * 7
+    ludr = [0.0] * 7
+    lurd = [0.0] * 7
+    uldr = [0.0] * 7
+    ulrd = [0.0] * 7
+
+    # Obliczanie sum i zliczanie wystąpień dla poszczególnych wzorców
+    for d in data:
+        index = int(d[0])
+        value = float(d[nr_criterion + 3])
+
+        if d[2] == 'dfs':
+            if d[3] == 'rdul':
+                sum_RDUL[index] += value
+                sum_RDUL[0] += 1
+                rdul[index - 1] += 1
+            elif d[3] == 'rdlu':
+                sum_RDLU[index] += value
+                sum_RDLU[0] += 1
+                rdlu[index - 1] += 1
+            elif d[3] == 'drul':
+                sum_DRUL[index] += value
+                sum_DRUL[0] += 1
+                drul[index - 1] += 1
+            elif d[3] == 'drlu':
+                sum_DRLU[index] += value
+                sum_DRLU[0] += 1
+                drlu[index - 1] += 1
+            elif d[3] == 'ludr':
+                sum_LUDR[index] += value
+                sum_LUDR[0] += 1
+                ludr[index - 1] += 1
+            elif d[3] == 'lurd':
+                sum_LURD[index] += value
+                sum_LURD[0] += 1
+                lurd[index - 1] += 1
+            elif d[3] == 'uldr':
+                sum_ULDR[index] += value
+                sum_ULDR[0] += 1
+                uldr[index - 1] += 1
+            elif d[3] == 'ulrd':
+                sum_ULRD[index] += value
+                sum_ULRD[0] += 1
+                ulrd[index - 1] += 1
+    # Pętla iterująca po indeksach 0 do 6 (włącznie)
+    for i in range(0, 7):
+        # Obliczamy średnie wartości dla każdego ruchu
+        avg_RDUL_table.append(sum_RDUL[i + 1] / rdul[i])
+        avg_RDLU_table.append(sum_RDLU[i + 1] / rdlu[i])
+        avg_DRUL_table.append(sum_DRUL[i + 1] / drul[i])
+        avg_DRLU_table.append(sum_DRLU[i + 1] / drlu[i])
+        avg_LUDR_table.append(sum_LUDR[i + 1] / ludr[i])
+        avg_LURD_table.append(sum_LURD[i + 1] / lurd[i])
+        avg_ULDR_table.append(sum_ULDR[i + 1] / uldr[i])
+        avg_ULRD_table.append(sum_ULRD[i + 1] / ulrd[i])
+
+    # Definiujemy listę x zawierającą wartości 1-7
+    x = [1, 2, 3, 4, 5, 6, 7]
+
+    # Tworzymy histogram
+    plt.hist([x, x, x, x, x, x, x, x],
+             # Wagi dla każdego ruchu
+             weights=[avg_RDLU_table, avg_RDUL_table, avg_DRUL_table, avg_DRLU_table,
+                      avg_LUDR_table, avg_LURD_table, avg_ULDR_table, avg_ULRD_table],
+             # Etykiety dla każdego ruchu
+             label=['RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
+             # Kolory dla każdego ruchu
+             color=['grey', 'purple', 'blue', 'lightblue', 'green', 'yellow', 'orange', 'red'],
+             # Zakresy przedziałów histogramu
+             bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
+
+    # Dodajemy tytuł, opisy osi oraz legendę
+    plt.title('DFS')
+    plt.xlabel('Głębokość rozwiazania')
+    plt.ylabel(name_criterion)
+    plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+
+    # Jeśli strange_numbers ma wartość True, ustawiamy skalę osi
+    if use_log_scale is True:
+        plt.yscale("log")
+    plt.savefig('./graphs/' + name_file)
+
+
+
+
 
 
 
@@ -148,3 +257,4 @@ for i in range(0,int(dataFrame.__sizeof__()/9)):
 
 summary_graph(dataFrame, 1, "Długość rozwiązania", "ogolne_dlugosc_rozwiazania", False)
 astar_graph(dataFrame, 1, "Długość rozwiązania", "astr_dlugosc_rozwiazania", False)
+dfs_graph(dataFrame, 1, "Długość rozwiązania", "dfs_dlugosc_rozwiazania", False)
