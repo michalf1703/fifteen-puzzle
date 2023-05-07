@@ -226,10 +226,106 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
         plt.yscale("log")
     plt.savefig('./graphs/' + name_file)
 
+def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
+    plt.clf()
+    # Tworzenie pustych list na sumy punktów dla każdego kierunku
+    sum_RDUL = [0.0] * 8
+    sum_RDLU = [0.0] * 8
+    sum_DRUL = [0.0] * 8
+    sum_DRLU = [0.0] * 8
+    sum_LUDR = [0.0] * 8
+    sum_LURD = [0.0] * 8
+    sum_ULDR = [0.0] * 8
+    sum_ULRD = [0.0] * 8
 
+    # Inicjalizacja list na średnie wartości punktów dla każdego kierunku
+    avg_RDUL_table = []
+    avg_RDLU_table = []
+    avg_DRUL_table = []
+    avg_DRLU_table = []
+    avg_LUDR_table = []
+    avg_LURD_table = []
+    avg_ULDR_table = []
+    avg_ULRD_table = []
 
+    # Inicjalizacja list na ilości wystąpień dla każdego kierunku
+    rdul = [0.0] * 7
+    rdlu = [0.0] * 7
+    drul = [0.0] * 7
+    drlu = [0.0] * 7
+    ludr = [0.0] * 7
+    lurd = [0.0] * 7
+    uldr = [0.0] * 7
+    ulrd = [0.0] * 7
+    for d in data:
+        index = int(d[0])
+        value = float(d[nr_criterion + 3])
 
+        if d[2] == 'bfs':
+            if d[3] == 'rdul':
+                sum_RDUL[index] += value
+                sum_RDUL[0] += 1
+                rdul[index - 1] += 1
+            elif d[3] == 'rdlu':
+                sum_RDLU[index] += value
+                sum_RDLU[0] += 1
+                rdlu[index - 1] += 1
+            elif d[3] == 'drul':
+                sum_DRUL[index] += value
+                sum_DRUL[0] += 1
+                drul[index - 1] += 1
+            elif d[3] == 'drlu':
+                sum_DRLU[index] += value
+                sum_DRLU[0] += 1
+                drlu[index - 1] += 1
+            elif d[3] == 'ludr':
+                sum_LUDR[index] += value
+                sum_LUDR[0] += 1
+                ludr[index - 1] += 1
+            elif d[3] == 'lurd':
+                sum_LURD[index] += value
+                sum_LURD[0] += 1
+                lurd[index - 1] += 1
+            elif d[3] == 'uldr':
+                sum_ULDR[index] += value
+                sum_ULDR[0] += 1
+                uldr[index - 1] += 1
+            elif d[3] == 'ulrd':
+                sum_ULRD[index] += value
+                sum_ULRD[0] += 1
+                ulrd[index - 1] += 1
+    # Obliczanie średniej wartości kryterium dla każdego z ruchów RDLU, RULD, DRUL, DRLU, LUDR, LURD, ULDR, ULRD.
+    avg_RDUL_table = [sum_RDUL[i + 1] / rdul[i] for i in range(0, 7)]
+    avg_RDLU_table = [sum_RDLU[i + 1] / rdlu[i] for i in range(0, 7)]
+    avg_DRUL_table = [sum_DRUL[i + 1] / drul[i] for i in range(0, 7)]
+    avg_DRLU_table = [sum_DRLU[i + 1] / drlu[i] for i in range(0, 7)]
+    avg_LUDR_table = [sum_LUDR[i + 1] / ludr[i] for i in range(0, 7)]
+    avg_LURD_table = [sum_LURD[i + 1] / lurd[i] for i in range(0, 7)]
+    avg_ULDR_table = [sum_ULDR[i + 1] / uldr[i] for i in range(0, 7)]
+    avg_ULRD_table = [sum_ULRD[i + 1] / ulrd[i] for i in range(0, 7)]
 
+    # Tworzenie histogramu, który przedstawia rozkład wartości kryterium dla każdego z ruchów.
+    x = [1, 2, 3, 4, 5, 6, 7]
+    plt.hist([x, x, x, x, x, x, x, x],
+             weights=[avg_RDLU_table, avg_RDUL_table, avg_DRUL_table, avg_DRLU_table,
+                      avg_LUDR_table, avg_LURD_table, avg_ULDR_table, avg_ULRD_table],
+             label=['RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
+             color=['grey', 'purple', 'blue', 'lightblue', 'green', 'yellow', 'orange', 'red'],
+             bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
+
+    # Ustawienie tytułu oraz etykiet osi na wykresie.
+    plt.title('BFS')
+    plt.xlabel('Głębokość rozwiązania')
+    plt.ylabel(name_criterion)
+
+    # Dodanie legendy oraz ustawienie jej położenia.
+    plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+
+    # Opcjonalne ustawienie skali osi Y na logarytmiczną.
+    if use_log_scale is True:
+        plt.yscale("log")
+    # Zapisanie wykresu do pliku.
+    plt.savefig('./graphs/' + name_file)
 
 
 
@@ -258,3 +354,4 @@ for i in range(0,int(dataFrame.__sizeof__()/9)):
 summary_graph(dataFrame, 1, "Długość rozwiązania", "ogolne_dlugosc_rozwiazania", False)
 astar_graph(dataFrame, 1, "Długość rozwiązania", "astr_dlugosc_rozwiazania", False)
 dfs_graph(dataFrame, 1, "Długość rozwiązania", "dfs_dlugosc_rozwiazania", False)
+bfs_graph(dataFrame, 1, "Długość rozwiązania", "bfs_dlugosc_rozwiazania", False)
