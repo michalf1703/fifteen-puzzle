@@ -1,5 +1,3 @@
-from _csv import reader
-import csv as csv
 import chardet as chardet
 import matplotlib.pyplot as plt
 
