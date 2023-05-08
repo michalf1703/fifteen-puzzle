@@ -1,5 +1,3 @@
-from _csv import reader
-import csv as csv
 import chardet as chardet
 import matplotlib.pyplot as plt
 
@@ -355,3 +353,23 @@ summary_graph(dataFrame, 1, "Długość rozwiązania", "ogolne_dlugosc_rozwiazan
 astar_graph(dataFrame, 1, "Długość rozwiązania", "astr_dlugosc_rozwiazania", False)
 dfs_graph(dataFrame, 1, "Długość rozwiązania", "dfs_dlugosc_rozwiazania", False)
 bfs_graph(dataFrame, 1, "Długość rozwiązania", "bfs_dlugosc_rozwiazania", False)
+
+summary_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "ogolne_odwiedzone", True)
+astar_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "astr_odwiedzone", False)
+bfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "bfs_odwiedzone", False)
+dfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "dfs_odwiedzone", False)
+
+summary_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "ogolne_przetworzone", True)
+astar_graph(dataFrame, 3, "Liczba stanów przetworzonych", "astr_przetworzone", False)
+bfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "bfs_przetworzone", False)
+dfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "dfs_przetworzone", False)
+
+summary_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "ogolne_głębokość", False)
+astar_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "astr_głębokość", False)
+bfs_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "bfs_głębokość", False)
+dfs_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "dfs_głębokość", False)
+
+summary_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms] w skali logarytmicznej", "ogolne_czas", True)
+astar_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms]", "astr_czas", False)
+bfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms]", "bfs_czas", False)
+dfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego [ms]", "dfs_czas", False)

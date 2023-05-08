@@ -1,31 +1,4 @@
 import time
-
-"""
-=> Omówienie algorytmu przeszukiwania "w głąb" - (ang. depth-first-search).
-
-Graf - musi być to graf skierowany, gdzie krawędzie są skierowane (do tego muszą być etykietowane operacjami - dokładnie operatorami) - jednak nie ma ich na wykresie, jako, że źle to wpływa na czytleność.
-
-Bazowa reprezentacja metody / algorytmu DFS jest jako funkcja rekurencyjna - nie ma z tego potrzeby przechowywania listy stanów otwartych. Jendak wymagana jest lista stanów zamkniętych - jednak w tym przypadku musi być ona globalna (musi być dostępna dla każdego wywołania funkcji).
-"""
-
-#pseudokod:
-"""
-function dfs(G, s)
-	if G.isgoal(s)
-		return SUCCESS
-	S = stack()
-	T = set()
-	S.push(s)
-	while ~S.isempty()
-		v = S.pop()
-		T.add(v)
-		for n in reverse(G.neighbours(n))
-			if G.isgoal() 
-				return SUCCESS
-			if ~T.has(n) and ~S.has(n)
-				S.push(n)
-	return FAILURE
-	"""
 class dfs:
     def __init__(self):
         # Inicjalizacja zmiennych używanych w algorytmie DFS
@@ -38,11 +11,6 @@ class dfs:
         self.max_recursion_reached = 0                      # maksymalna głębokość rekursji, osiągnięta podczas działania algorytmu
 
     def dfs_start(self, board):
-        """
-        Funkcja uruchamiająca algorytm DFS i zwracająca rozwiązanie.
-        :param board: początkowy stan planszy
-        :return: ścieżka do rozwiązania
-        """
         start_time = time.time()                            # mierzymy czas wykonania algorytmu
         result = self.dfs_solve(board)                      # uruchamiamy funkcję rozwiązującą problem
         self.elapsed_time = time.time() - start_time        # obliczamy czas wykonania algorytmu
@@ -68,27 +36,17 @@ class dfs:
                 result = self.dfs_solve(neighbor)                   # Rekurencyjne wywołanie dfs_solve dla sąsiedniej planszy
                 if result is not None:
                     return result                                   # Jeśli udało się znaleźć rozwiązanie, zwróć ścieżkę prowadzącą do rozwiązania
-                self.path = self.path[:-1]  # Usuń ostatni ruch z ścieżki
-        return None  # Jeśli nie udało się znaleźć rozwiązania, zwróć None
+                self.path = self.path[:-1]                          # Usuń ostatni ruch z ścieżki
+        return None                                                 # Jeśli nie udało się znaleźć rozwiązania, zwróć None
 
-
-    def states_counter(self):
-        """
-        Zwraca liczbę odwiedzonych i przetworzonych stanów podczas działania algorytmu.
-        :return: krotka z dwoma liczbami: (odwiedzone, przetworzone)
-        """
+    # get_states_count --> Zwraca liczbę odwiedzonych i przetworzonych stanów podczas działania algorytmu.
+    def get_states_count(self):
         return self.visited_states, self.processed_states
 
-    def get_algorithm_time(self):
-        """
-        Zwraca czas wykonania algorytmu w sekundach.
-        :return: czas wykonania algorytmu w sekundach
-        """
+    # get_time --> Zwraca czas wykonania algorytmu w sekundach, z dokładnością do trzech miejsc po przecinku
+    def get_time(self):
         return round(self.elapsed_time, 3)
 
-    def recursion_reached(self):
-        """
-        Zwraca maksymalną rekursję, jaką osiągnął algorytm.
-        :return: maksymalna rekursja
-        """
+    # get_max_depth_reached --> Zwraca maksymalną rekursję, jaką osiągnął algorytm.
+    def get_max_depth_reached(self):
         return self.max_recursion_reached

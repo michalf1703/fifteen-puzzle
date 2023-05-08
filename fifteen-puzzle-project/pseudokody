@@ -1,0 +1,73 @@
+Algorytm A* : algorytm działa na takiej zasadzie, że umieszcza on na liście stanów otwartych umieszcza stanów
+ - jednak w takiej kolejności, że wartości metryki w kolejności malejącej są bliżej zdjęcia z tej kolejki priorytetowej.
+
+Algorytm A* nie porządkuje stanów w kolejce tylko i wyłącznie za pomocą funkcji heurysytcznej
+- tylko funkcji oceny -> bierze ona pod uwagę wartość funkcji heurystycznej oraz dotychczasowy koszt
+ dotarcia do bieżącego wierzchołka od stanu początkowego.
+
+czyli: f(n) = g(n) + h(n)
+
+function aStar(G, s):
+	p = priorityQueue()
+	T = set()
+	p.insert(s, 0)
+	while ~p.isEmpty():
+		v = p.pull()
+		if ~T.has(v):
+			if G.isGoal(v):
+				return SUCCESS
+			T.add(v)
+			for n in G.neighbours(v)
+			if ~T.has(n)
+				f = g(n) + h(n, G)
+				p.insert(n , f)
+	return FAILURE
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+===> Omówienie BFS (ang. breadth-first-search):
+
+* W przypadku tego algortymu potrzebna będzie struktura danych (ang. open list) - lista stanów otwartych - w przyapdku poznania sąsiadów dla danego elementu i będą wprowadzane do listy stanów otwartych.
+
+* Jeżli algorytm operuje na liście stanów otwartych to nie działa taki algorytm najlepiej - bo niektóre stany będą odpytywane ponownie.
+
+* Lista stanów zamkniętych (ang. closed - listed / explored) - przechowywana jest tam informacja o tym czy dany stan był już przepytywany (a do tego charakteryzuje się szybszym przeszukiwaniem)
+
+function bfs(G, s):
+    if G.isGoal(s):
+        return SUCCESS
+    queue = queue()
+    visited = set()         # Zbiór odwiedzonych wierzchołków
+    queue.enqueue(s)
+    visited.add(s)
+    while not queue.isEmpty():
+        v = queue.dequeue()
+        for n in G.neighbours(v):
+            if n not in visited:
+                if G.isGoal(n):
+                    return SUCCESS
+                queue.enqueue(n)
+                visited.add(n)
+    return FAILURE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+=> Omówienie algorytmu przeszukiwania "w głąb" - (ang. depth-first-search).
+
+Graf - musi być to graf skierowany, gdzie krawędzie są skierowane (do tego muszą być etykietowane operacjami - dokładnie operatorami) - jednak nie ma ich na wykresie, jako, że źle to wpływa na czytleność.
+
+Bazowa reprezentacja metody / algorytmu DFS jest jako funkcja rekurencyjna - nie ma z tego potrzeby przechowywania listy stanów otwartych. Jendak wymagana jest lista stanów zamkniętych - jednak w tym przypadku musi być ona globalna (musi być dostępna dla każdego wywołania funkcji).
+
+
+function dfs(G, s)
+	if G.isgoal(s)
+		return SUCCESS
+	S = stack()
+	T = set()
+	S.push(s)
+	while ~S.isempty()
+		v = S.pop()
+		T.add(v)
+		for n in reverse(G.neighbours(n))
+			if G.isgoal()
+				return SUCCESS
+			if ~T.has(n) and ~S.has(n)
+				S.push(n)
+	return FAILURE
