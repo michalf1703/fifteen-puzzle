@@ -22,7 +22,7 @@ class puzzleBoard:
 
     def __copy__(self):
         new_board = copy.deepcopy(self.board)                                       # tworzymy głęboką kopię planszy
-        new_instance = puzzleBoard(self.width, self.height, new_board, self.metric)  # tworzymy nowy węzeł
+        new_instance = puzzleBoard(self.width, self.height, new_board, self.metric) # tworzymy nowy węzeł
         new_instance.last_move = self.last_move                                     # kopiujemy ostatni ruch
         new_instance.parent = self                                                  # ustawiamy rodzica na obecny węzeł
         new_instance.priority = self.metric                                         # ustawiamy priorytet heurystyki

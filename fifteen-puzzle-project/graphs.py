@@ -45,12 +45,15 @@ def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
     # tworzenie wykresu
     x = [1, 2, 3, 4, 5, 6, 7]
-    plt.hist([x, x, x], weights=[avg_astar_table, avg_bfs_table, avg_dfs_table], label=['A*', 'BFS', 'DFS'],
-             color=['blue', 'purple', 'green'], bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
-    plt.title('Ogólne')
+   # y = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0]
+    plt.hist([x, x, x], weights=[avg_dfs_table,avg_bfs_table, avg_astar_table], label=['BFS', 'DFS', 'A*'],
+             color=['#FF8C00','#4169E1', '#228B22'], bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
+    # dodanie podziałki dla osi Y
+    plt.yticks(range(0, 21, 1))
+    plt.title('Ogółem')
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
-    plt.legend(('A*', 'BFS', 'DFS'), loc='upper left')
+    plt.legend(('DFS','BFS','A*'), loc='upper left')
 
     # opcjonalne skalowanie logarytmiczne osi y
     if use_log_scale is True:
@@ -96,9 +99,9 @@ def astar_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     x = [1, 2, 3, 4, 5, 6, 7]
     plt.hist(
         [x, x],
-        weights=[avg_manh_table, avg_hamm_table],
-        label=['Manhattan', 'Hamming'],
-        color=['blue', 'purple'],
+        weights=[avg_hamm_table,avg_manh_table],
+        label=['Hamming','Manhattan'],
+        color=['#4169E1', '#FF8C00'],
         bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5]
     )
 
@@ -258,7 +261,6 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     for d in data:
         index = int(d[0])
         value = float(d[nr_criterion + 3])
-
         if d[2] == 'bfs':
             if d[3] == 'rdul':
                 sum_RDUL[index] += value
@@ -340,9 +342,6 @@ with open("wszystkie_dane.csv", 'r', encoding=enc['encoding']) as csvfile:
         dataFrame.append(array)
 
         i += 1
-        #list.append(array)
-
-    #print(dataFrame)
 
 # Wyświetl tablicę_dwuwymiarową
 for i in range(0,int(dataFrame.__sizeof__()/9)):
