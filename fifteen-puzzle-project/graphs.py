@@ -225,10 +225,10 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
     if nr_criterion == 1 or nr_criterion == 2 or nr_criterion == 3 or nr_criterion == 4:
-        plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper right',bbox_to_anchor=(0.96, 0.88), borderaxespad=0.,
+        plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper right',bbox_to_anchor=(1.005, 0.88), borderaxespad=0.,
            bbox_transform=plt.gcf().transFigure)
     else:
-        plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+        plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
 
 
     # Jeśli strange_numbers ma wartość True, ustawiamy skalę osi
@@ -307,19 +307,21 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Tworzenie histogramu, który przedstawia rozkład wartości kryterium dla każdego z ruchów.
     x = [1, 2, 3, 4, 5, 6, 7]
     plt.hist([x, x, x, x, x, x, x, x],
-             weights=[avg_RDLU_table, avg_RDUL_table, avg_DRUL_table, avg_DRLU_table,
-                      avg_LUDR_table, avg_LURD_table, avg_ULDR_table, avg_ULRD_table],
-             label=['RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
-             color=['grey', 'purple', 'blue', 'lightblue', 'green', 'yellow', 'orange', 'red'],
+             # Wagi dla każdego ruchu
+             weights=[avg_RDUL_table, avg_RDLU_table, avg_DRUL_table, avg_DRLU_table, avg_LUDR_table, avg_LURD_table,
+                      avg_ULDR_table, avg_ULRD_table],
+             # Etykiety dla każdego ruchu
+             label=['RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
+             # Kolory dla każdego ruchu
+             color=['#4169E1', '#FF8C00', '#228B22', '#A52A2A', '#9932CC', '#A0522D', '#FF69B4', '#808080'],
+             # Zakresy przedziałów histogramu
              bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
 
     # Ustawienie tytułu oraz etykiet osi na wykresie.
     plt.title('BFS')
     plt.xlabel('Głębokość rozwiązania')
     plt.ylabel(name_criterion)
-
-    # Dodanie legendy oraz ustawienie jej położenia.
-    plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+    plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
 
     # Opcjonalne ustawienie skali osi Y na logarytmiczną.
     if use_log_scale is True:
