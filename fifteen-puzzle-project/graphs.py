@@ -53,7 +53,11 @@ def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.title('Ogółem')
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
-    plt.legend(('DFS','BFS','A*'), loc='upper left')
+    if nr_criterion == 2 or nr_criterion == 3:
+        plt.legend(('DFS', 'BFS', 'A*'), loc='upper right',bbox_to_anchor=(0.96, 0.88), borderaxespad=0.,
+           bbox_transform=plt.gcf().transFigure)
+    else:
+        plt.legend(('DFS','BFS','A*'), loc='upper left')
 
     # opcjonalne skalowanie logarytmiczne osi y
     if use_log_scale is True:
@@ -61,68 +65,6 @@ def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
     # zapisanie wykresu do pliku
     plt.savefig('./graphs/' + name_file)
-
-def summary_graph2(data, nr_criterion, name_criterion, name_file, use_log_scale):
-        plt.clf()
-
-        # tworzenie list sum_astar, sum_bfs, sum_dfs
-        sum_astar = []  # pierwsze dla ilości zliczonych obiektów, reszta to głębokość rozwiązania = index
-        sum_bfs = []
-        sum_dfs = []
-        for i in range(0, 8):
-            sum_astar.append(0.0)
-            sum_bfs.append(0.0)
-            sum_dfs.append(0.0)
-
-        # tworzenie tabel avg_astar_table, avg_bfs_table, avg_dfs_table
-        avg_astar_table = []
-        avg_bfs_table = []
-        avg_dfs_table = []
-
-        astar = [0.0] * 7
-        bfs = [0.0] * 7
-        dfs = [0.0] * 7
-
-        # przetwarzanie danych
-        for d in data:
-            if d[2] == 'astr':
-                sum_astar[int(d[0])] += float(d[nr_criterion + 3])
-                sum_astar[0] = sum_astar[0] + 1.0
-                astar[int(d[0]) - 1] += 1.0
-            if d[2] == 'bfs':
-                sum_bfs[int(d[0])] += float(d[nr_criterion + 3])
-                sum_bfs[0] = sum_bfs[0] + 1.0
-                bfs[int(d[0]) - 1] += 1.0
-            if d[2] == 'dfs':
-                sum_dfs[int(d[0])] += float(d[nr_criterion + 3])
-                sum_dfs[0] = sum_dfs[0] + 1.0
-                dfs[int(d[0]) - 1] += 1.0
-
-        # obliczanie średnich dla każdego algorytmu
-        for i in range(0, 7):
-            avg_astar_table.append(sum_astar[i + 1] / astar[i])
-            avg_bfs_table.append(sum_bfs[i + 1] / bfs[i])
-            avg_dfs_table.append(sum_dfs[i + 1] / dfs[i])
-
-        # tworzenie wykresu
-        x = [1, 2, 3, 4, 5, 6, 7]
-        # y = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0]
-        plt.hist([x, x, x], weights=[avg_dfs_table, avg_bfs_table, avg_astar_table], label=['BFS', 'DFS', 'A*'],
-                 color=['#FF8C00', '#4169E1', '#228B22'], bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
-        # dodanie podziałki dla osi Y
-        plt.yticks(range(0, 21, 1))
-        plt.title('Ogółem')
-        plt.xlabel('Głębokość rozwiazania')
-        plt.ylabel(name_criterion)
-        plt.legend(('DFS', 'BFS', 'A*'), loc='upper right',bbox_to_anchor=(0.96, 0.88), borderaxespad=0.,
-           bbox_transform=plt.gcf().transFigure)
-
-        # opcjonalne skalowanie logarytmiczne osi y
-        if use_log_scale is True:
-            plt.yscale("log")
-
-        # zapisanie wykresu do pliku
-        plt.savefig('./graphs/' + name_file)
 
 def astar_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Czyszczenie aktualnego wykresu
@@ -269,12 +211,12 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Tworzymy histogram
     plt.hist([x, x, x, x, x, x, x, x],
              # Wagi dla każdego ruchu
-             weights=[avg_RDLU_table, avg_RDUL_table, avg_DRUL_table, avg_DRLU_table,
-                      avg_LUDR_table, avg_LURD_table, avg_ULDR_table, avg_ULRD_table],
+             weights=[avg_RDUL_table, avg_RDLU_table, avg_DRUL_table, avg_DRLU_table, avg_LUDR_table, avg_LURD_table,
+                      avg_ULDR_table, avg_ULRD_table],
              # Etykiety dla każdego ruchu
-             label=['RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
+             label=['RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
              # Kolory dla każdego ruchu
-             color=['grey', 'purple', 'blue', 'lightblue', 'green', 'yellow', 'orange', 'red'],
+             color=['#4169E1', '#FF8C00', '#228B22', '#A52A2A', '#9932CC', '#A0522D', '#FF69B4', '#808080'],
              # Zakresy przedziałów histogramu
              bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
 
@@ -282,7 +224,12 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.title('DFS')
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
-    plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+    if nr_criterion == 1 or nr_criterion == 2 or nr_criterion == 3 or nr_criterion == 4:
+        plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper right',bbox_to_anchor=(0.96, 0.88), borderaxespad=0.,
+           bbox_transform=plt.gcf().transFigure)
+    else:
+        plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+
 
     # Jeśli strange_numbers ma wartość True, ustawiamy skalę osi
     if use_log_scale is True:
@@ -301,15 +248,6 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     sum_ULDR = [0.0] * 8
     sum_ULRD = [0.0] * 8
 
-    # Inicjalizacja list na średnie wartości punktów dla każdego kierunku
-    avg_RDUL_table = []
-    avg_RDLU_table = []
-    avg_DRUL_table = []
-    avg_DRLU_table = []
-    avg_LUDR_table = []
-    avg_LURD_table = []
-    avg_ULDR_table = []
-    avg_ULRD_table = []
 
     # Inicjalizacja list na ilości wystąpień dla każdego kierunku
     rdul = [0.0] * 7
@@ -415,12 +353,12 @@ astar_graph(dataFrame, 1, "Długość rozwiązania", "astr_dlugosc_rozwiazania",
 dfs_graph(dataFrame, 1, "Długość rozwiązania", "dfs_dlugosc_rozwiazania", False)
 bfs_graph(dataFrame, 1, "Długość rozwiązania", "bfs_dlugosc_rozwiazania", False)
 
-summary_graph2(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "ogolne_odwiedzone", True)
+summary_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "ogolne_odwiedzone", True)
 astar_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "astr_odwiedzone", False)
 bfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "bfs_odwiedzone", False)
 dfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "dfs_odwiedzone", False)
 
-summary_graph2(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "ogolne_przetworzone", True)
+summary_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "ogolne_przetworzone", True)
 astar_graph(dataFrame, 3, "Liczba stanów przetworzonych", "astr_przetworzone", False)
 bfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "bfs_przetworzone", False)
 dfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "dfs_przetworzone", False)
