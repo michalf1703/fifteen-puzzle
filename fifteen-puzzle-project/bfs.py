@@ -10,34 +10,28 @@ class bfs:
         self.time = 0                                   # czas wykonania algorytmu
         self.max_depth_reached = 0                      # maksymalna głębokość, na którą zszedł algorytm
 
+
     def bfs_solve(self):
-        start_time = time.time_ns()                     # Pobranie czasu rozpoczęcia działania algorytmu
-        queue = deque([(self.board, "")])               # Utworzenie kolejki stanów do odwiedzenia
-        current, path = queue.popleft()                 # Pobranie pierwszego elementu z kolejki (ten wiersz jest potrzebny tylko w przypadku, gdy wczytamy poprawna tablice)
-        if self.board.is_solved():                      # Sprawdzenie, czy stan początkowy jest już rozwiązaniem
-            self.time = (time.time_ns() - start_time) / (10 ** 6)           # Obliczenie czasu wykonania
-            return path                                 # Zwrócenie pustego ciągu, ponieważ już jesteśmy w stanie końcowym
-        queue = deque()                                 # Zainicjowanie pustej kolejki
-        visited = set()                                 # Zainicjowanie pustego zbioru odwiedzonych stanów
-        queue.append((self.board, ""))                  # Dodanie stanu początkowego do kolejki z pustym ciągiem ruchów
-        visited.add(self.board.__hash__())              # Dodanie stanu początkowego do zbioru odwiedzonych
-        while queue:
-            current, path = queue.popleft()             # Pobranie pierwszego elementu z kolejki
-            self.processed_states += 1                  # Zwiększenie liczby przetworzonych stanów
-            current.move()                              # Wygenerowanie możliwych ruchów dla danego stanu
-            for neighbor in current.get_neighbors():    # Przejście po sąsiadach danego stanu
-                self.visited_states += 1                # Zwiększenie liczby odwiedzonych stanów
-                if neighbor.__hash__() not in visited:  # Sprawdzenie, czy dany sąsiad nie był jeszcze odwiedzony
-                    if neighbor.is_solved():            # Sprawdzenie, czy dany sąsiad jest stanem końcowym
-                        self.time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczenie czasu wykonania
-                        return path + neighbor.last_move        # Zwrócenie ciągu ruchów prowadzących do rozwiązania
-                    queue.append((neighbor,
-                                  path + neighbor.last_move))   # Dodanie danego sąsiada do kolejki z aktualnym ciągiem ruchów
-                    visited.add(neighbor.__hash__())            # Dodanie danego sąsiada do zbioru odwiedzonych
-                    if neighbor.depth > self.max_depth_reached: # Aktualizacja maksymalnej głębokości przeszukiwania
-                        self.max_depth_reached = neighbor.depth
-        self.time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczenie czasu wykonania
-        return None                                             # Zwrócenie None, ponieważ nie udało się znaleźć rozwiązania
+        star_time = time.time_ns()
+        q = deque([(self.board, "")])
+        self.visited.add(self.board.__hash__())
+        while q:
+            current, path = q.popleft()
+            if current.depth >= self.max_recursion_reached:
+                self.max_recursion_reached = current.depth
+            self.processed_states += 1
+            if current.is_solved():
+                self.elapsed_time = (time.time_ns() - star_time) / (10 ** 6)
+                return path
+            current.move()
+            for neighbour in current.get_neighbors():
+                self.visited_states += 1
+                if neighbour.__hash__() not in self.visited:
+                    self.visited.add(neighbour.__hash__())
+                    q.append((neighbour, path + neighbour.last_move))
+        self.elapsed_time = (time.time_ns() - star_time) / (10 ** 6)
+        return None
+
 
     # get_states_count --> Zwraca liczbę odwiedzonych i przetworzonych stanów podczas działania algorytmu.
     def get_states_count(self):

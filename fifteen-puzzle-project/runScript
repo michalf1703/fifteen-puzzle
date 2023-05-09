@@ -1,6 +1,6 @@
 wszystkie rozwiązania:
 cd C:\Users\Hp\Documents\GitHub\fifteen-puzzle\fifteen-puzzle-project\puzzles
-.\przeszukiwania.ps1 -strategy dfs -param RDUL
+.\przeszukiwania.ps1 -strategy bfs -param RDUL;.\przeszukiwania.ps1 -strategy bfs -param RDUL
 
 do jednego pliku:
 .\ekstraktor_danych.ps1 >> dane.csv
