@@ -1,5 +1,7 @@
 import chardet as chardet
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.clf()
@@ -111,7 +113,15 @@ def astar_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
     # Dodanie tytułu i etykiet osi
     plt.title('A*')
+    if nr_criterion == 2:
+        plt.yticks(range(0, 24, 1))
     plt.xlabel('Głębokość rozwiązania')
+    if nr_criterion == 3:
+        plt.yticks(range(0, 11, 1))
+    plt.ylabel(name_criterion)
+    if nr_criterion == 5:
+        y_ticks = np.arange(0, 1.1, 0.1)
+        plt.yticks(y_ticks)
     plt.ylabel(name_criterion)
 
     # Dodanie legendy
@@ -222,6 +232,14 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
     # Dodajemy tytuł, opisy osi oraz legendę
     plt.title('DFS')
+    if nr_criterion == 1:
+        plt.yticks(range(0, 21, 1))
+    elif nr_criterion == 2:
+        y_ticks = np.arange(0, 1100000, 50000)
+        plt.yticks(y_ticks)
+    elif nr_criterion == 3:
+        y_ticks = np.arange(0, 1100000, 50000)
+        plt.yticks(y_ticks)
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
     if nr_criterion == 1 or nr_criterion == 2 or nr_criterion == 3 or nr_criterion == 4:
@@ -319,6 +337,10 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
     # Ustawienie tytułu oraz etykiet osi na wykresie.
     plt.title('BFS')
+    if nr_criterion == 2:
+        plt.yticks(range(0, 1050, 50))
+    if nr_criterion == 3:
+        plt.yticks(range(0, 450, 25))
     plt.xlabel('Głębokość rozwiązania')
     plt.ylabel(name_criterion)
     plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
