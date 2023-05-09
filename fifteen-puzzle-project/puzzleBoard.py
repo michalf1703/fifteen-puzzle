@@ -45,30 +45,23 @@ class puzzleBoard:
         Tworzy nowy węzeł reprezentujący planszę po wykonaniu ruchu `move` na pozycji `index`.
         """
         new_board = self.__copy__()                                                 # tworzymy nowy węzeł na podstawie obecnej planszy
-        new_board.last_move = move                                                  # ustawiamy ostatni ruch
-        if move == "U":                                                             # ruch w górę
-            temp = new_board.board[index - self.width]                              # zapisujemy wartość pola powyżej zera
-            new_board.board[index - self.width] = 0                                 # na pozycji powyżej zera umieszczamy zero
-            new_board.board[index] = temp                                           # w miejscu zera umieszczamy wartość zapisaną w `temp`
+        new_board.last_move = move
+        offset = 0
+        if move == "U":
+            offset = -self.width
+        elif move == "D":
+            offset = self.width
+        elif move == "R":
+            offset = 1
+        elif move == "L":
+            offset = -1
+
+        if offset != 0:
+            temp = new_board.board[index + offset]
+            new_board.board[index + offset] = 0
+            new_board.board[index] = temp
             return new_board
 
-        elif move == "D":                                                           # ruch w dół
-            temp = new_board.board[index + self.width]                              # zapisujemy wartość pola poniżej zera
-            new_board.board[index + self.width] = 0                                 # na pozycji poniżej zera umieszczamy zero
-            new_board.board[index] = temp                                           # w miejscu zera umieszczamy wartość zapisaną w `temp`
-            return new_board
-
-        elif move == "R":                                                           # ruch w prawo
-            temp = new_board.board[index + 1]                                       # zapisujemy wartość pola po prawej stronie zera
-            new_board.board[index + 1] = 0                                          # na pozycji po prawej stronie zera umieszczamy zero
-            new_board.board[index] = temp                                           # w miejscu zera umieszczamy wartość zapisaną w `temp`
-            return new_board
-
-        elif move == "L":                                                           # ruch w lewo
-            temp = new_board.board[index - 1]                                       # zapisujemy wartość pola po lewej stronie zera
-            new_board.board[index - 1] = 0                                          # na pozycji po lewej stronie zera umieszczamy zero
-            new_board.board[index] = temp                                           # w miejscu zera umieszczamy wartość zapisaną w `temp`
-            return new_board
         return None
 
     def move(self):
@@ -88,17 +81,17 @@ class puzzleBoard:
             elif move == "R" and self.last_move != "L" and index % self.width != self.width - 1:
                 self.neighbors.append(self.change_state(move, index))
 
-    def manhattan_metic(self):
+    def manhattan_metric(self):
         distance = 0
+        target_positions = [
+            [(i * self.width + j) % (self.width * self.height) % self.width, (i * self.width + j) // self.width] for i
+            in range(self.height) for j in range(self.width)]
         for x in range(0, self.height):
             for y in range(0, self.width):
-                board_value = self.board[x * self.height + y]                                   # wartość z planszy
+                board_value = self.board[x * self.height + y]
                 if board_value != 0:
-                    current_x = y
-                    current_y = x
-                    proper_x = (board_value - 1) % self.width
-                    proper_y = (board_value - 1) // self.height                                 # dzielenie - podłoga
-                    distance += abs(proper_x - current_x) + abs(proper_y - current_y)           # obliczenie odległości między pozycją aktualną i docelową
+                    target_x, target_y = target_positions[board_value - 1]
+                    distance += abs(target_x - y) + abs(target_y - x)
         return distance
 
 
@@ -115,7 +108,7 @@ class puzzleBoard:
         if self.heuristic == "hamm":                                                            # jeśli wybrana heurystyka to "hamm"
             return self.hamming_metric()                                                        # zwraca wynik hamming_heuristic()
         else:
-            return self.manhattan_metic()                                                       # w przeciwnym wypadku zwraca wynik manhattan_heuristic()
+            return self.manhattan_metric()                                                       # w przeciwnym wypadku zwraca wynik manhattan_heuristic()
 
     def __lt__(self, other):
         return True
