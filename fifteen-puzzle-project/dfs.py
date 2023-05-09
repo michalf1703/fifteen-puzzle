@@ -7,13 +7,13 @@ class dfs:
         self.max_depth = 20                                 # maksymalna dozwolona głębokość przeszukiwania
         self.visited_states = 1                             # liczba odwiedzonych stanów
         self.processed_states = 0                           # liczba przetworzonych stanów
-        self.elapsed_time = 0                               # czas wykonania algorytmu
+        self.time = 0                                       # czas wykonania algorytmu
         self.max_recursion_reached = 0                      # maksymalna głębokość rekursji, osiągnięta podczas działania algorytmu
 
     def dfs_start(self, board):
         start_time = time.time()                            # mierzymy czas wykonania algorytmu
         result = self.dfs_solve(board)                      # uruchamiamy funkcję rozwiązującą problem
-        self.elapsed_time = time.time() - start_time        # obliczamy czas wykonania algorytmu
+        self.time = time.time() - start_time        # obliczamy czas wykonania algorytmu
         return result
 
     def dfs_solve(self, board):
@@ -45,7 +45,7 @@ class dfs:
 
     # get_time --> Zwraca czas wykonania algorytmu w sekundach, z dokładnością do trzech miejsc po przecinku
     def get_time(self):
-        return round(self.elapsed_time, 3)
+        return round(self.time, 3)
 
     # get_max_depth_reached --> Zwraca maksymalną rekursję, jaką osiągnął algorytm.
     def get_max_depth_reached(self):

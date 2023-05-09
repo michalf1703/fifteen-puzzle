@@ -7,7 +7,7 @@ class bfs:
         self.visited = set()
         self.visited_states = 1
         self.processed_states = 0
-        self.elapsed_time = 0
+        self.time = 0
         self.max_recursion_reached = 0
 
     def bfs_solve(self):
@@ -20,7 +20,7 @@ class bfs:
                 self.max_recursion_reached = current.depth
             self.processed_states += 1
             if current.is_solved():
-                self.elapsed_time = (time.time_ns() - star_time) / (10 ** 6)
+                self.time = (time.time_ns() - star_time) / (10 ** 6)
                 return path
             current.move()
             for neighbour in current.get_neighbors():
@@ -28,7 +28,7 @@ class bfs:
                 if neighbour.__hash__() not in self.visited:
                     self.visited.add(neighbour.__hash__())
                     q.append((neighbour, path + neighbour.last_move))
-        self.elapsed_time = (time.time_ns() - star_time) / (10 ** 6)
+        self.time = (time.time_ns() - star_time) / (10 ** 6)
         return None
 
     # get_states_count --> Zwraca liczbę odwiedzonych i przetworzonych stanów podczas działania algorytmu.
@@ -37,7 +37,7 @@ class bfs:
 
     #get_time -->Zwraca czas wykonania algorytmu w sekundach, z dokładnością do 3 miejsc po przecinku
     def get_time(self):
-        return round(self.elapsed_time, 3)
+        return round(self.time, 3)
 
     #get_max_depth_reached --> Zwraca maksymalną rekursję, jaką osiągnął algorytm
     def get_max_depth_reached(self):
