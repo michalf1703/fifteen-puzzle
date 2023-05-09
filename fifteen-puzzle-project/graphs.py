@@ -1,5 +1,7 @@
 import chardet as chardet
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.clf()
@@ -45,12 +47,19 @@ def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
     # tworzenie wykresu
     x = [1, 2, 3, 4, 5, 6, 7]
-    plt.hist([x, x, x], weights=[avg_astar_table, avg_bfs_table, avg_dfs_table], label=['A*', 'BFS', 'DFS'],
-             color=['blue', 'purple', 'green'], bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
-    plt.title('Ogólne')
+   # y = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0]
+    plt.hist([x, x, x], weights=[avg_dfs_table,avg_bfs_table, avg_astar_table], label=['BFS', 'DFS', 'A*'],
+             color=['#FF8C00','#4169E1', '#228B22'], bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
+    # dodanie podziałki dla osi Y
+    plt.yticks(range(0, 21, 1))
+    plt.title('Ogółem')
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
-    plt.legend(('A*', 'BFS', 'DFS'), loc='upper left')
+    if nr_criterion == 2 or nr_criterion == 3:
+        plt.legend(('DFS', 'BFS', 'A*'), loc='upper right',bbox_to_anchor=(0.96, 0.88), borderaxespad=0.,
+           bbox_transform=plt.gcf().transFigure)
+    else:
+        plt.legend(('DFS','BFS','A*'), loc='upper left')
 
     # opcjonalne skalowanie logarytmiczne osi y
     if use_log_scale is True:
@@ -96,15 +105,23 @@ def astar_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     x = [1, 2, 3, 4, 5, 6, 7]
     plt.hist(
         [x, x],
-        weights=[avg_manh_table, avg_hamm_table],
-        label=['Manhattan', 'Hamming'],
-        color=['blue', 'purple'],
+        weights=[avg_hamm_table,avg_manh_table],
+        label=['Hamming','Manhattan'],
+        color=['#4169E1', '#FF8C00'],
         bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5]
     )
 
     # Dodanie tytułu i etykiet osi
     plt.title('A*')
+    if nr_criterion == 2:
+        plt.yticks(range(0, 24, 1))
     plt.xlabel('Głębokość rozwiązania')
+    if nr_criterion == 3:
+        plt.yticks(range(0, 11, 1))
+    plt.ylabel(name_criterion)
+    if nr_criterion == 5:
+        y_ticks = np.arange(0, 1.1, 0.1)
+        plt.yticks(y_ticks)
     plt.ylabel(name_criterion)
 
     # Dodanie legendy
@@ -204,20 +221,33 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Tworzymy histogram
     plt.hist([x, x, x, x, x, x, x, x],
              # Wagi dla każdego ruchu
-             weights=[avg_RDLU_table, avg_RDUL_table, avg_DRUL_table, avg_DRLU_table,
-                      avg_LUDR_table, avg_LURD_table, avg_ULDR_table, avg_ULRD_table],
+             weights=[avg_RDUL_table, avg_RDLU_table, avg_DRUL_table, avg_DRLU_table, avg_LUDR_table, avg_LURD_table,
+                      avg_ULDR_table, avg_ULRD_table],
              # Etykiety dla każdego ruchu
-             label=['RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
+             label=['RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
              # Kolory dla każdego ruchu
-             color=['grey', 'purple', 'blue', 'lightblue', 'green', 'yellow', 'orange', 'red'],
+             color=['#4169E1', '#FF8C00', '#228B22', '#A52A2A', '#9932CC', '#A0522D', '#FF69B4', '#808080'],
              # Zakresy przedziałów histogramu
              bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
 
     # Dodajemy tytuł, opisy osi oraz legendę
     plt.title('DFS')
+    if nr_criterion == 1:
+        plt.yticks(range(0, 21, 1))
+    elif nr_criterion == 2:
+        y_ticks = np.arange(0, 1100000, 50000)
+        plt.yticks(y_ticks)
+    elif nr_criterion == 3:
+        y_ticks = np.arange(0, 1100000, 50000)
+        plt.yticks(y_ticks)
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
-    plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+    if nr_criterion == 1 or nr_criterion == 2 or nr_criterion == 3 or nr_criterion == 4:
+        plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper right',bbox_to_anchor=(1.005, 0.88), borderaxespad=0.,
+           bbox_transform=plt.gcf().transFigure)
+    else:
+        plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+
 
     # Jeśli strange_numbers ma wartość True, ustawiamy skalę osi
     if use_log_scale is True:
@@ -236,15 +266,6 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     sum_ULDR = [0.0] * 8
     sum_ULRD = [0.0] * 8
 
-    # Inicjalizacja list na średnie wartości punktów dla każdego kierunku
-    avg_RDUL_table = []
-    avg_RDLU_table = []
-    avg_DRUL_table = []
-    avg_DRLU_table = []
-    avg_LUDR_table = []
-    avg_LURD_table = []
-    avg_ULDR_table = []
-    avg_ULRD_table = []
 
     # Inicjalizacja list na ilości wystąpień dla każdego kierunku
     rdul = [0.0] * 7
@@ -258,7 +279,6 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     for d in data:
         index = int(d[0])
         value = float(d[nr_criterion + 3])
-
         if d[2] == 'bfs':
             if d[3] == 'rdul':
                 sum_RDUL[index] += value
@@ -305,19 +325,25 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Tworzenie histogramu, który przedstawia rozkład wartości kryterium dla każdego z ruchów.
     x = [1, 2, 3, 4, 5, 6, 7]
     plt.hist([x, x, x, x, x, x, x, x],
-             weights=[avg_RDLU_table, avg_RDUL_table, avg_DRUL_table, avg_DRLU_table,
-                      avg_LUDR_table, avg_LURD_table, avg_ULDR_table, avg_ULRD_table],
-             label=['RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
-             color=['grey', 'purple', 'blue', 'lightblue', 'green', 'yellow', 'orange', 'red'],
+             # Wagi dla każdego ruchu
+             weights=[avg_RDUL_table, avg_RDLU_table, avg_DRUL_table, avg_DRLU_table, avg_LUDR_table, avg_LURD_table,
+                      avg_ULDR_table, avg_ULRD_table],
+             # Etykiety dla każdego ruchu
+             label=['RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'],
+             # Kolory dla każdego ruchu
+             color=['#4169E1', '#FF8C00', '#228B22', '#A52A2A', '#9932CC', '#A0522D', '#FF69B4', '#808080'],
+             # Zakresy przedziałów histogramu
              bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
 
     # Ustawienie tytułu oraz etykiet osi na wykresie.
     plt.title('BFS')
+    if nr_criterion == 2:
+        plt.yticks(range(0, 1050, 50))
+    if nr_criterion == 3:
+        plt.yticks(range(0, 450, 25))
     plt.xlabel('Głębokość rozwiązania')
     plt.ylabel(name_criterion)
-
-    # Dodanie legendy oraz ustawienie jej położenia.
-    plt.legend(('RDLU', 'RULD', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
+    plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
 
     # Opcjonalne ustawienie skali osi Y na logarytmiczną.
     if use_log_scale is True:
@@ -340,9 +366,6 @@ with open("wszystkie_dane.csv", 'r', encoding=enc['encoding']) as csvfile:
         dataFrame.append(array)
 
         i += 1
-        #list.append(array)
-
-    #print(dataFrame)
 
 # Wyświetl tablicę_dwuwymiarową
 for i in range(0,int(dataFrame.__sizeof__()/9)):
