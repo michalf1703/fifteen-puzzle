@@ -22,7 +22,6 @@ class bfs:
     def get_max_depth(self):
         return self.max_depth_reached
 
-
     def solve(self):
         start_time = time.time_ns()                                     # Zapisz czas rozpoczęcia rozwiązywania problemu.
         queue = deque([(self.puzzle, "")])                              # Utwórz kolejkę, która będzie przechowywała pary (stan planszy, ścieżka do tego stanu).
@@ -32,7 +31,7 @@ class bfs:
             if current.depth >= self.max_depth_reached:                 # Zapisz, jeśli osiągnięto nową maksymalną głębokość.
                 self.max_depth_reached = current.depth                  # Zwiększ licznik przetworzonych stanów.
             self.processed_states += 1
-            if current.is_solved():                                     # Sprawdź, czy bieżący stan planszy jest rozwiązaniem.
+            if current.is_goal():                                       # Sprawdź, czy bieżący stan planszy jest rozwiązaniem.
                 self.time = (time.time_ns() - start_time) / (10 ** 6)   # Oblicz czas potrzebny do rozwiązania problemu.
                 return path                                             # Zwróć ścieżkę do rozwiązania.
             current.move()                                              # Wykonaj ruch na planszy.
@@ -40,7 +39,7 @@ class bfs:
                 self.visited_states += 1                                # Zwiększ licznik odwiedzonych stanów.
                 if neighbour.__hash__() not in self.visited:            # Dodaj do kolejki, jeśli sąsiad nie był wcześniej odwiedzony.
                     self.visited.add(neighbour.__hash__())
-                    queue.append((neighbour, path + neighbour.final_move))
+                    queue.append((neighbour, path + neighbour.last_move))
         self.time = (time.time_ns() - start_time) / (10 ** 6)           # Oblicz czas potrzebny do rozwiązania problemu.
         return None                                                     # Zwróć wartość None, gdy problem nie może być rozwiązany.
 
