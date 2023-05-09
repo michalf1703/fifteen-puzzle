@@ -37,7 +37,7 @@ class dfs:
             return None                                             # Jeśli osiągnięto maksymalną głębokość i plansza przekracza ją, to zwróć None
         if board.depth >= self.max_recursion:
             self.max_recursion = board.depth                        # Aktualizacja największej dotychczasowej głębokości rekursji
-        if board.is_solved():
+        if board.is_goal():
             return self.path                                        # Jeśli plansza jest rozwiązana, zwróć ścieżkę prowadzącą do rozwiązania
         self.visited[board.__hash__()] = board.depth                # Dodaj planszę do odwiedzonych stanów
         board.move()                                                # Przejście do następnego stanu planszy
@@ -47,8 +47,8 @@ class dfs:
                                                                     # jeśli tak, to nie wchodzimy do niej ponownie
             if (neighbor.__hash__() in self.visited and neighbor.depth < self.visited[
                 neighbor.__hash__()]) or neighbor.__hash__() not in self.visited:
-                self.path += neighbor.final_move                     # Dodaj ostatni ruch do ścieżki
-                result = self.solve(neighbor)                   # Rekurencyjne wywołanie dfs_solve dla sąsiedniej planszy
+                self.path += neighbor.last_move                     # Dodaj ostatni ruch do ścieżki
+                result = self.solve(neighbor)                       # Rekurencyjne wywołanie dfs_solve dla sąsiedniej planszy
                 if result is not None:
                     return result                                   # Jeśli udało się znaleźć rozwiązanie, zwróć ścieżkę prowadzącą do rozwiązania
                 self.path = self.path[:-1]                          # Usuń ostatni ruch z ścieżki

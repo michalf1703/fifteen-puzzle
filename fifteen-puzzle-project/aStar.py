@@ -32,10 +32,10 @@ class aStar:
                 self.max_depth = current.depth              # Aktualizujemy wartość największej osiągniętej głębokości
             self.processed_states += 1                      # Zwiększamy liczbę przetworzonych stanów
             closed_set[current.__hash__()] = current.depth  # Dodajemy aktualny stan do słownika odwiedzonych
-            if current.is_solved():
+            if current.is_goal():
                 path = ""
-                while current.final_move != "":              # Przechodzimy po rodzicach w celu odnalezienia rozwiązania
-                    path += current.final_move
+                while current.last_move != "":              # Przechodzimy po rodzicach w celu odnalezienia rozwiązania
+                    path += current.last_move
                     current = current.parent
                 reversed_path = path[::-1]                  # Odwracamy scieżkę, aby otrzymać poprawny wynik
                 self.time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczamy czas wykonania algorytmu

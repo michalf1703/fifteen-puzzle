@@ -2,7 +2,6 @@ import chardet as chardet
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.clf()
     # tworzenie list sum_astar, sum_bfs, sum_dfs
@@ -132,7 +131,6 @@ def astar_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
     # Zapisanie wykresu do pliku
     plt.savefig('./graphs/' + name_file)
-
 
 def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
 
@@ -265,7 +263,6 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     sum_ULDR = [0.0] * 8
     sum_ULRD = [0.0] * 8
 
-
     # Inicjalizacja list na ilości wystąpień dla każdego kierunku
     rdul = [0.0] * 7
     rdlu = [0.0] * 7
@@ -350,9 +347,6 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Zapisanie wykresu do pliku.
     plt.savefig('./graphs/' + name_file)
 
-
-
-
 with open('wszystkie_dane.csv', 'rb') as f:
     enc = chardet.detect(f.read())
 
@@ -369,7 +363,6 @@ with open("wszystkie_dane.csv", 'r', encoding=enc['encoding']) as csvfile:
 # Wyświetl tablicę_dwuwymiarową
 for i in range(0,int(dataFrame.__sizeof__()/9)):
     print(dataFrame[i], '\n')
-
 
 summary_graph(dataFrame, 1, "Długość rozwiązania", "ogolne_dlugosc_rozwiazania", False)
 astar_graph(dataFrame, 1, "Długość rozwiązania", "astr_dlugosc_rozwiazania", False)
