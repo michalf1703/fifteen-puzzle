@@ -5,7 +5,6 @@ import numpy as np
 
 def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     plt.clf()
-
     # tworzenie list sum_astar, sum_bfs, sum_dfs
     sum_astar = []  # pierwsze dla ilości zliczonych obiektów, reszta to głębokość rozwiązania = index
     sum_bfs = []
