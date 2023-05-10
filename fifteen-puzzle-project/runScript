@@ -3,4 +3,4 @@ cd C:\Users\Hp\Documents\GitHub\fifteen-puzzle\fifteen-puzzle-project\puzzles
 .\przeszukiwania.ps1 -strategy bfs -param DRLU;.\przeszukiwania.ps1 -strategy bfs -param DRUL;.\przeszukiwania.ps1 -strategy bfs -param LUDR;.\przeszukiwania.ps1 -strategy bfs -param LURD;.\przeszukiwania.ps1 -strategy bfs -param RDLU;.\przeszukiwania.ps1 -strategy bfs -param RDUL;.\przeszukiwania.ps1 -strategy bfs -param ULDR;.\przeszukiwania.ps1 -strategy bfs -param ULRD;.\przeszukiwania.ps1 -strategy dfs -param DRLU;.\przeszukiwania.ps1 -strategy dfs -param DRUL;.\przeszukiwania.ps1 -strategy dfs -param LUDR;.\przeszukiwania.ps1 -strategy dfs -param LURD;.\przeszukiwania.ps1 -strategy dfs -param RDLU;.\przeszukiwania.ps1 -strategy dfs -param RDUL;.\przeszukiwania.ps1 -strategy dfs -param ULDR;.\przeszukiwania.ps1 -strategy dfs -param ULRD;.\przeszukiwania.ps1 -strategy astr -param hamm;.\przeszukiwania.ps1 -strategy astr -param manh
 
 do jednego pliku:
-.\ekstraktor_danych.ps1 >> dane.csv
+.\ekstraktor_danych.ps1 >> dane_sprawko2.csv

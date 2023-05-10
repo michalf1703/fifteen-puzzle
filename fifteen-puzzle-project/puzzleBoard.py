@@ -81,18 +81,16 @@ class puzzleBoard:
     # Funkcja obliczająca odległość Manhattan
     def manhattan_metric(self):
         distance = 0
-        target_positions = [
-            [(i * self.width + j) % (self.width * self.height) % self.width, (i * self.width + j) // self.width] for i
-            in range(self.height) for j in
-            range(self.width)]  # wyznaczenie docelowych pozycji dla każdej wartości na planszy
         for x in range(0, self.height):
             for y in range(0, self.width):
-                board_value = self.puzzle[x * self.height + y]  # pobranie wartości z planszy
+                board_value = self.puzzle[x * self.height + y]  # wartosc z boarda
                 if board_value != 0:
-                    target_x, target_y = target_positions[board_value - 1]  # pobranie docelowej pozycji dla wartości
-                    distance += abs(target_x - y) + abs(
-                        target_y - x)  # obliczenie odległości Manhattan między obecną pozycją a docelową
-        return distance  # zwrócenie sumy odległości Manhattan dla całej planszy
+                    current_x = y
+                    current_y = x
+                    proper_x = (board_value - 1) % self.width
+                    proper_y = (board_value - 1) // self.height  # dzielenia - podłoga
+                    distance += abs(proper_x - current_x) + abs(proper_y - current_y)
+        return distance
 
     def hamming_metric(self):
         distance = 0                                                                            # zmienna przechowująca wartość heurystyki
