@@ -1,4 +1,4 @@
-import time
+from timeit import default_timer
 from queue import PriorityQueue
 
 class aStar:
@@ -22,28 +22,28 @@ class aStar:
         return self.max_depth
 
     def solve(self):
-        start_time = time.time_ns()                         # Pobieramy czas rozpoczęcia wykonywania algorytmu w nanosekundach
-        open_set = PriorityQueue()                          # Kolejka priorytetowa na węzły do odwiedzenia
-        open_set.put((0, self.puzzle))                      # Wkładamy koszt i dany stan
-        closed_set = dict()                                 # Słownik przechowujący już odwiedzone stany wraz z ich kosztami
-        while not open_set.empty():
-            current = open_set.get()[1]                     # Wyjmujemy węzeł z najniższym kosztem
-            if current.depth >= self.max_depth:
-                self.max_depth = current.depth              # Aktualizujemy wartość największej osiągniętej głębokości
-            self.processed_states += 1                      # Zwiększamy liczbę przetworzonych stanów
-            closed_set[current.__hash__()] = current.depth  # Dodajemy aktualny stan do słownika odwiedzonych
-            if current.is_goal():
+        start_time = default_timer()                                                 # pobranie czasu rozpoczęcia wykonywania algorytmu w nanosekundach
+        open_set = PriorityQueue()                                                  # tworzenie listę , która jest kolejka priorytetowa na węzły do odwiedzenia
+        open_set.put((0, self.puzzle))                                              # wkładanie do kolejki węzeła: koszt i dany stan, nie ma znaczenia czy koszt bedzie 0 czy inny, bo i tak zaraz zdejmujemy z kolejki
+        processed_states_dictionary = dict()                                        # tworzenie słownika przechowującego już odwiedzone stany wraz z ich kosztami
+        while not open_set.empty():                                                 #sprawdzenie czy lista przechowująca stany odwiedzone jest pusta
+            current_board_state = open_set.get()[1]                                 # wyjmowanie węzła, który ma najniższy koszt
+            if current_board_state.depth >= self.max_depth:                         # sprawdzenie czy aktualna głębokość węzła nie przekracza aktualnej maksymalnej głębokości
+                self.max_depth = current_board_state.depth                          # aktualziacja wartości największej osiągniętej głębokości
+            self.processed_states += 1                                              # zwiększenie liczby przetworzonych stanów
+            processed_states_dictionary[current_board_state.__hash__()] = current_board_state.depth  # dodanie aktualny stan do słownika przetworzonych stanów, prównanie głębokości
+            if current_board_state.is_goal():
                 path = ""
-                while current.last_move != "":              # Przechodzimy po rodzicach w celu odnalezienia rozwiązania
-                    path += current.last_move
-                    current = current.parent
+                while current_board_state.last_move != "":              # Przechodzimy po rodzicach w celu odnalezienia rozwiązania
+                    path += current_board_state.last_move
+                    current_board_state = current_board_state.parent
                 reversed_path = path[::-1]                  # Odwracamy scieżkę, aby otrzymać poprawny wynik
-                self.time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczamy czas wykonania algorytmu
+                self.time = (default_timer() - start_time) *1000
                 return reversed_path
-            current.move()
-            for neighbor in current.get_neighbors():
+            current_board_state.move()
+            for neighbor in current_board_state.get_neighbors():
                 self.visited_states += 1                     # Zwiększamy liczbę odwiedzonych stanów
-                if (neighbor.__hash__() in closed_set and neighbor.depth < closed_set[neighbor.__hash__()]) or neighbor.__hash__() not in closed_set:
+                if (neighbor.__hash__() in processed_states_dictionary and neighbor.depth < processed_states_dictionary[neighbor.__hash__()]) or neighbor.__hash__() not in processed_states_dictionary:
                     cost = neighbor.depth + neighbor.get_metric_cost()  # Obliczamy koszt danego stanu
                     board_and_cost = (cost, neighbor)
                     is_in_queue = False
@@ -53,6 +53,12 @@ class aStar:
                             break
                     if not is_in_queue:
                         open_set.put((cost, neighbor))
-        self.time = (time.time_ns() - start_time) / (10 ** 6)  # Obliczamy czas wykonania algorytmu
+        self.time = (default_timer() - start_time) *1000  # Obliczamy czas wykonania algorytmu
         return None
 
+#koszt = koszt danego węzła + koszt heurystyczny
+#licznik stanów przetworzonych zwiększa się w momencie, gdy algorytm pobiera nowy węzeł z najniższym kosztem ze zbioru otwartego
+#słownik przetworzonych stanów służy do przechowywania informacji o już odwiedzonych stanach, co pozwala na uniknięcie powtarzania tych samych stanów.
+#l:34 jeżeli algorytm natrafi na stan, który już został odwiedzony i jest przechowywany w słowniku stanów odwiedzonych to następuje porównanie
+#głębokości aktualnego stanu z tą głębokością, którą przechowuje słownik przetworzonych dla danego stanu.
+#jeżeli aktualna głębokość jest mniejsza niż
