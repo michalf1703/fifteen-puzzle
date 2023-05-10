@@ -237,13 +237,16 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     elif nr_criterion == 3:
         y_ticks = np.arange(0, 1100000, 50000)
         plt.yticks(y_ticks)
+    elif nr_criterion == 4:
+        y_ticks = np.arange(0, 21, 1)
+        plt.yticks(y_ticks)
+    elif nr_criterion == 5:
+        y_ticks = np.arange(0, 16, 1)
+        plt.yticks(y_ticks)
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
-    if nr_criterion == 1 or nr_criterion == 2 or nr_criterion == 3 or nr_criterion == 4:
-        plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper right',bbox_to_anchor=(1.005, 0.88), borderaxespad=0.,
+    plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper right',bbox_to_anchor=(1.005, 0.88), borderaxespad=0.,
            bbox_transform=plt.gcf().transFigure)
-    else:
-        plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
 
 
     # Jeśli strange_numbers ma wartość True, ustawiamy skalę osi
@@ -337,6 +340,9 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
         plt.yticks(range(0, 1050, 50))
     if nr_criterion == 3:
         plt.yticks(range(0, 450, 25))
+    if nr_criterion == 5:
+        y_ticks = np.arange(0, 9.5, 0.5)
+        plt.yticks(y_ticks)
     plt.xlabel('Głębokość rozwiązania')
     plt.ylabel(name_criterion)
     plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper left')
