@@ -353,10 +353,10 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Zapisanie wykresu do pliku.
     plt.savefig('./graphs/' + name_file)
 
-with open('dane_sprawko3.csv', 'rb') as f:
+with open('dobry_timer.csv', 'rb') as f:
     enc = chardet.detect(f.read())
 
-with open("dane_sprawko3.csv", 'r', encoding=enc['encoding']) as csvfile:
+with open("dobry_timer.csv", 'r', encoding=enc['encoding']) as csvfile:
     # Stwórz czytnik csv
     dataFrame = list()
     i=0

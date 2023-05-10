@@ -1,4 +1,4 @@
-import time
+from timeit import default_timer
 from collections import deque
 
 class bfs:
@@ -23,7 +23,7 @@ class bfs:
         return self.max_depth_reached
 
     def solve(self):
-        start_time = time.time_ns()                                     # zapisanie czasu rozpoczęcia rozwiązywania problemu.
+        start_time = default_timer()                                    # zapisanie czasu rozpoczęcia rozwiązywania problemu.
         queue = deque([(self.puzzle, "")])                              # utworzenie kolejki, która będzie przechowywała pary (stan planszy, ścieżka do tego stanu).
         self.visited.add(self.puzzle.__hash__())                        # oznaczenie bieżącego stan planszy jako odwiedzony.
         while queue:                                                    # wykonywanie pętli dopóki kolejka nie jest pusta.
@@ -32,7 +32,7 @@ class bfs:
                 self.max_depth_reached = current_board_state.depth
             self.processed_states += 1                                  # zwiekszenie licznika przetworzonych stanów.
             if current_board_state.is_goal():                           # sprawdzenie, czy bieżący stan planszy jest rozwiązaniem.
-                self.time = (time.time_ns() - start_time) / (10 ** 6)   # obliczenie czasu potrzebnego do rozwiązania problemu.
+                self.time = (default_timer() - start_time) *1000   # obliczenie czasu potrzebnego do rozwiązania problemu.
                 return path                                             # zwrócenie ścieżki do rozwiązania.
             current_board_state.move()                                  # wykonanie ruchu na planszy.
             for neighbour in current_board_state.get_neighbors():       # sprawdzenie sąsiadów bieżącego stanu planszy.
@@ -40,7 +40,7 @@ class bfs:
                 if neighbour.__hash__() not in self.visited:            # dodanie do kolejki, jeśli sąsiad nie był wcześniej odwiedzony.
                     self.visited.add(neighbour.__hash__())              # dodanie do listy stanów odwiedzonych
                     queue.append((neighbour, path + neighbour.last_move)) #dodanie do kolejki queue krotke, składającą się na stan planszy sąsiada oraz path+neighbour.last_move
-        self.time = (time.time_ns() - start_time) / (10 ** 6)           # oblicznie czasu potrzebny do rozwiązania problemu.
+        self.time = (default_timer - start_time) *1000           # oblicznie czasu potrzebny do rozwiązania problemu.
         return None                                                     # zwrocenie wartość None, gdy problem nie może być rozwiązany.
 
 

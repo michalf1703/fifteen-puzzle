@@ -1,4 +1,4 @@
-import time
+from timeit import default_timer
 class dfs:
     def __init__(self):
         # Inicjalizacja zmiennych używanych w algorytmie DFS
@@ -13,9 +13,9 @@ class dfs:
     #zaimplementowana została funkcja dfs_start(), w celu mierzenia czasu
     #nie mieliśmy jak zaimplementować licznika czasu wewnątrz funkcji dfs_solve, ponieważ została ona wykonana rekurencyjnie, więc licznik czasu resetowałby sie
     def dfs_start(self, puzzle):
-        start_time = time.time()                            # mierzymy czas wykonania algorytmu
+        start_time = default_timer()                            # mierzymy czas wykonania algorytmu
         result = self.solve(puzzle)                         # uruchamiamy funkcję rozwiązującą problem
-        self.time = time.time() - start_time                # obliczamy czas wykonania algorytmu
+        self.time = (default_timer() - start_time) *1000                # obliczamy czas wykonania algorytmu
         return result
 
 
