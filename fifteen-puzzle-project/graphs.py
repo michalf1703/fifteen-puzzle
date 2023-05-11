@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
-    plt.clf()
+    plt.clf()   #czyszczenie poprzedniego wykresu
     # tworzenie list sum_astar, sum_bfs, sum_dfs
     sum_astar = []  # pierwsze dla ilości zliczonych obiektów, reszta to głębokość rozwiązania = index
     sum_bfs = []
@@ -46,18 +46,18 @@ def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # tworzenie wykresu
     x = [1, 2, 3, 4, 5, 6, 7]
    # y = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0]
-    plt.hist([x, x, x], weights=[avg_dfs_table,avg_bfs_table, avg_astar_table], label=['BFS', 'DFS', 'A*'],
-             color=['#FF8C00','#4169E1', '#228B22'], bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
+    plt.hist([x, x, x], weights=[avg_bfs_table,avg_dfs_table, avg_astar_table], label=['DFS','BFS', 'A*'],
+             color=['#4169E1','#FF8C00', '#228B22'], bins=[0.5, 1.5, 2.5, 3.6, 4.5, 5.5, 6.5, 7.5])
     # dodanie podziałki dla osi Y
     plt.yticks(range(0, 21, 1))
     plt.title('Ogółem')
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
-    if nr_criterion == 2 or nr_criterion == 3:
-        plt.legend(('DFS', 'BFS', 'A*'), loc='upper right',bbox_to_anchor=(0.96, 0.88), borderaxespad=0.,
+    if nr_criterion == 2 or nr_criterion == 3 or nr_criterion ==5:
+        plt.legend(('BFS','DFS', 'A*'), loc='upper right',bbox_to_anchor=(0.96, 0.88), borderaxespad=0.,
            bbox_transform=plt.gcf().transFigure)
     else:
-        plt.legend(('DFS','BFS','A*'), loc='upper left')
+        plt.legend(('BFS','DFS','A*'), loc='upper left')
 
     # opcjonalne skalowanie logarytmiczne osi y
     if use_log_scale is True:
@@ -240,9 +240,6 @@ def dfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     elif nr_criterion == 4:
         y_ticks = np.arange(0, 21, 1)
         plt.yticks(y_ticks)
-    elif nr_criterion == 5:
-        y_ticks = np.arange(0, 16, 1)
-        plt.yticks(y_ticks)
     plt.xlabel('Głębokość rozwiazania')
     plt.ylabel(name_criterion)
     plt.legend(('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD'), loc='upper right',bbox_to_anchor=(1.005, 0.88), borderaxespad=0.,
@@ -353,10 +350,10 @@ def bfs_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
     # Zapisanie wykresu do pliku.
     plt.savefig('./graphs/' + name_file)
 
-with open('dobry_timer.csv', 'rb') as f:
+with open('dane_do_sprawka.csv', 'rb') as f:
     enc = chardet.detect(f.read())
 
-with open("dobry_timer.csv", 'r', encoding=enc['encoding']) as csvfile:
+with open("dane_do_sprawka.csv", 'r', encoding=enc['encoding']) as csvfile:
     # Stwórz czytnik csv
     dataFrame = list()
     i=0
@@ -377,13 +374,13 @@ bfs_graph(dataFrame, 1, "Długość rozwiązania", "bfs_dlugosc_rozwiazania", Fa
 
 summary_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "ogolne_odwiedzone", True)
 astar_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "astr_odwiedzone", False)
-bfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "bfs_odwiedzone", False)
-dfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "dfs_odwiedzone", False)
+bfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "bfs_odwiedzone", True)
+dfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "dfs_odwiedzone", True)
 
 summary_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "ogolne_przetworzone", True)
 astar_graph(dataFrame, 3, "Liczba stanów przetworzonych", "astr_przetworzone", False)
-bfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "bfs_przetworzone", False)
-dfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "dfs_przetworzone", False)
+bfs_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "bfs_przetworzone", True)
+dfs_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "dfs_przetworzone", True)
 
 summary_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "ogolne_głębokość", False)
 astar_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "astr_głębokość", False)
@@ -392,5 +389,5 @@ dfs_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "dfs_g
 
 summary_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms] w skali logarytmicznej", "ogolne_czas", True)
 astar_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms]", "astr_czas", False)
-bfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms]", "bfs_czas", False)
-dfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego [ms]", "dfs_czas", False)
+bfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms] w skali logarytmicznej", "bfs_czas", True)
+dfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms] w skali logarytmicznej", "dfs_czas", True)

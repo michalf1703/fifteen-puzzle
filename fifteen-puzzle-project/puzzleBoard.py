@@ -18,27 +18,30 @@ class puzzleBoard:
         self.depth = 0                                                             # głębokość w drzewie rozwiązań
 
 
+#funkcja do kopiowania stanu planszy tak, aby nie modyfikować oryginalnej planszy
     def __copy__(self):
-        new_board = copy.deepcopy(self.puzzle)                                        # tworzymy głęboką kopię planszy
-        new_instance = puzzleBoard(self.width, self.height, new_board, self.order)   # tworzymy nowy węzeł
-        new_instance.last_move = self.last_move                                     # kopiujemy ostatni ruch
-        new_instance.parent = self                                                    # ustawiamy rodzica na obecny węzeł
-        new_instance.order = self.order                                               # ustawiamy priorytet
-        new_instance.depth = self.depth + 1                                           # ustawiamy głębokość na jeden większą niż węzeł rodzica
-        new_instance.heuristic = self.heuristic                                       # kopiujemy heurystykę
-        return new_instance
+        new_puzzle_board = copy.deepcopy(self.puzzle)                                        # tworzymy głęboką kopię planszy
+        new = puzzleBoard(self.width, self.height, new_puzzle_board, self.order)             # tworzymy nowy węzeł
+        new.last_move = self.last_move                                                       # kopiujemy ostatni ruch
+        new.parent = self                                                                    # ustawiamy rodzica na obecny węzeł
+        new.order = self.order                                                               # ustawiamy priorytet
+        new.depth = self.depth + 1                                                           # ustawiamy głębokość na jeden większą niż węzeł rodzica
+        new.heuristic = self.heuristic                                                       # kopiujemy heurystykę
+        return new
 
-    def __hash__(self):                                                               #Oblicza hash planszy.
-        return hash(tuple(self.puzzle))
+#funkcja tworząca skrót planszy gry
+    def __hash__(self):
+        return hash(tuple(self.puzzle)) #przekonwertowanie listy wartości planszy na krotkę oraz stworzenie skrótu tej krotki
 
+#is_goal -> funkcja sprawdzająca czy dana plansza jest rozwiązaniem gry
     def is_goal(self):
-        solution = list(range(1, self.height * self.width)) + [0]                    # tworzymy listę z rozwiązaniem
-        return tuple(self.puzzle) == tuple(solution)                                 # porównujemy planszę z rozwiązaniem i zwracamy True lub False
+        solution = list(range(1, self.height * self.width)) + [0]                    # tworzenie listy z rozwiązaniem, wartości od 1 do 15 i na końcu 0
+        return tuple(self.puzzle) == tuple(solution)                                 # porównanie planszy z rozwiązaniem i zwracanie True lub False
 
 
-    #Tworzy nowy węzeł reprezentujący planszę po wykonaniu ruchu `move` na pozycji `index`
-    def move_state(self, move, index):
-        new_puzzles = self.__copy__()                     # Tworzymy nowy węzeł na podstawie obecnej planszy
+#move_state -> funkcja używana do wykonania ruchów, aby stworzyć nowy węzeł planszy w grze
+    def move_state(self, move, index):                   #index -> index pustego pola
+        new_puzzles = self.__copy__()                    #tworzenie kopi obecnej planszy, tak aby nie działać na oryginalnej planszy
         new_puzzles.last_move = move                     # Ustawiamy ruch, który doprowadził nas do tego stanu planszy
         # Obliczamy przesunięcie w zależności od kierunku ruchu
         offset = 0
@@ -58,6 +61,7 @@ class puzzleBoard:
             return new_puzzles  # Zwracamy nowy węzeł
         return None  # Jeśli przesunięcie wynosi 0, to ruch jest niepoprawny, więc zwracamy None
 
+#move -> służy do wygenerowania listy sąsiadów, którzy są osiągalni przez wykonanie jednego ruchu (lewo, w górę, w prawo , w dół)
     def move(self):
         index = self.puzzle.index(0)  # znajdź indeks pustego pola
         # dla każdego ruchu w kolejności metryki (LURD):
@@ -78,27 +82,27 @@ class puzzleBoard:
     def get_neighbors(self):
         return self.neighbors
 
-    # Funkcja obliczająca odległość Manhattan
+    # Funkcja obliczająca odległość Manhattan- mierzy odległość między dwoma punktami na płaszczyźnie, sumując różnice ich współrzędnych poziomych i pionowych
     def manhattan_metric(self):
-        distance = 0
-        for x in range(0, self.height):
+        distance = 0                                              #inicjalizacja początkowej odległości
+        for x in range(0, self.height):                           #przejście przez każdą wewnętrzną komórkę planszy wewnętrznymi pętlami for zmiennych x i y
             for y in range(0, self.width):
-                board_value = self.puzzle[x * self.height + y]  # wartosc z boarda
-                if board_value != 0:
+                puzzles_value = self.puzzle[x * self.height + y]  #dla każdej komórki planszy, "puzzles_value" przechowuje jej wartość, a jeśli jest zerem to przechodzi do następnej komórki
+                if puzzles_value != 0:
                     current_x = y
-                    current_y = x
-                    proper_x = (board_value - 1) % self.width
-                    proper_y = (board_value - 1) // self.height  # dzielenia - podłoga
-                    distance += abs(proper_x - current_x) + abs(proper_y - current_y)
+                    current_y = x                                 #jeśli puzzles_value nie ma wartości 0, następuje wartość zmiennej current_x i current_y, które przechowują aktualne współrzędne komórki planszy
+                    correct_x = (puzzles_value - 1) % self.width
+                    correct_y = (puzzles_value - 1) // self.height #obliczanie wartości correct_x o
+                    distance += abs(correct_x - current_x) + abs(correct_y - current_y) #obliczanie odległosci między aktualną i oczekiwaną pozycją komórki planszy
         return distance
 
     def hamming_metric(self):
         distance = 0                                                                            # zmienna przechowująca wartość heurystyki
         for number in range(0, self.width * self.height):                                       # pętla iterująca po wszystkich polach planszy
-            board_value = self.puzzle[number]                                                   # aktualna wartość pola planszy
-            if number != board_value - 1 and board_value != 0:                                  # sprawdzenie, czy pole jest w złym miejscu
+            puzzles_value = self.puzzle[number]                                                 # aktualna wartość pola planszy
+            if number != puzzles_value - 1 and puzzles_value != 0:                              # sprawdzenie, czy pole jest w złym miejscu
                 distance += 1                                                                   # zwiększenie wartości heurystyki
-        return distance                                                                         # zwrócenie wartości heurystyki
+        return distance                                                                         # zwrócenie wartości heurystyki, im mniejsza wartosc distance to lepiej
 
 
     def get_metric_cost(self):
@@ -107,6 +111,6 @@ class puzzleBoard:
         else:
             return self.manhattan_metric()                                                      # w przeciwnym wypadku zwraca wynik manhattan_heuristic()
 
-    def __lt__(self, other):
+    def __lt__(self, other):                    #stworzona do porównywania
         return True
 

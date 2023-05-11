@@ -6,14 +6,14 @@ class aStar:
         self.puzzle = puzzle
         self.visited_states = 0                             # Liczba odwiedzonych stanów
         self.processed_states = 0                           # Liczba przetworzonych stanów
-        self.time = 0                                       # Czas wykonania algorytmu w milisekundach
+        self.time = 0                                       # Czas wykonania algorytmu
         self.max_depth = 0                                  # Największa osiągnięta głębokość
 
     # count_states --> Zwraca liczbę odwiedzonych i przetworzonych stanów podczas działania algorytmu.
     def get_states(self):
         return self.visited_states, self.processed_states
 
-    # get_time --> Zwraca czas wykonania algorytmu w sekundach, z dokładnością do 3 miejsc po przecinku.
+    # get_time --> Zwraca czas wykonania algorytmu w milisekundach, z dokładnością do 3 miejsc po przecinku.
     def get_time(self):
         return round(self.time, 3)
 
@@ -34,17 +34,17 @@ class aStar:
             processed_states_dictionary[current_board_state.__hash__()] = current_board_state.depth  # dodanie aktualny stan do słownika przetworzonych stanów, prównanie głębokości
             if current_board_state.is_goal():
                 path = ""
-                while current_board_state.last_move != "":              # Przechodzimy po rodzicach w celu odnalezienia rozwiązania
+                while current_board_state.last_move != "":              # przechodzenie po rodzicach w celu odnalezienia rozwiązania
                     path += current_board_state.last_move
                     current_board_state = current_board_state.parent
-                reversed_path = path[::-1]                  # Odwracamy scieżkę, aby otrzymać poprawny wynik
+                reversed_path = path[::-1]                  # odwrócenie scieżki, aby otrzymać poprawny wynik
                 self.time = (default_timer() - start_time) *1000
                 return reversed_path
             current_board_state.move()
             for neighbor in current_board_state.get_neighbors():
-                self.visited_states += 1                     # Zwiększamy liczbę odwiedzonych stanów
+                self.visited_states += 1                     # zwiększenie liczbę odwiedzonych stanów
                 if (neighbor.__hash__() in processed_states_dictionary and neighbor.depth < processed_states_dictionary[neighbor.__hash__()]) or neighbor.__hash__() not in processed_states_dictionary:
-                    cost = neighbor.depth + neighbor.get_metric_cost()  # Obliczamy koszt danego stanu
+                    cost = neighbor.depth + neighbor.get_metric_cost()  # obliczenie kosztu danego stanu
                     board_and_cost = (cost, neighbor)
                     is_in_queue = False
                     for item in open_set.queue:
@@ -53,7 +53,7 @@ class aStar:
                             break
                     if not is_in_queue:
                         open_set.put((cost, neighbor))
-        self.time = (default_timer() - start_time) *1000  # Obliczamy czas wykonania algorytmu
+        self.time = (default_timer() - start_time) *1000  # obliczenie czasu wykonania algorytmu
         return None
 
 #koszt = koszt danego węzła + koszt heurystyczny

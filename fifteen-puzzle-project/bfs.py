@@ -14,7 +14,7 @@ class bfs:
     def get_states(self):
         return self.visited_states, self.processed_states
 
-    #get_time -->Zwraca czas wykonania algorytmu w sekundach, z dokładnością do 3 miejsc po przecinku
+    #get_time -->Zwraca czas wykonania algorytmu w milisekundach, z dokładnością do 3 miejsc po przecinku
     def get_time(self):
         return round(self.time, 3)
 
@@ -32,7 +32,7 @@ class bfs:
                 self.max_depth_reached = current_board_state.depth
             self.processed_states += 1                                  # zwiekszenie licznika przetworzonych stanów.
             if current_board_state.is_goal():                           # sprawdzenie, czy bieżący stan planszy jest rozwiązaniem.
-                self.time = (default_timer() - start_time) *1000   # obliczenie czasu potrzebnego do rozwiązania problemu.
+                self.time = (default_timer() - start_time) *1000        # obliczenie czasu potrzebnego do rozwiązania problemu.
                 return path                                             # zwrócenie ścieżki do rozwiązania.
             current_board_state.move()                                  # wykonanie ruchu na planszy.
             for neighbour in current_board_state.get_neighbors():       # sprawdzenie sąsiadów bieżącego stanu planszy.
@@ -40,7 +40,7 @@ class bfs:
                 if neighbour.__hash__() not in self.visited:            # dodanie do kolejki, jeśli sąsiad nie był wcześniej odwiedzony.
                     self.visited.add(neighbour.__hash__())              # dodanie do listy stanów odwiedzonych
                     queue.append((neighbour, path + neighbour.last_move)) #dodanie do kolejki queue krotke, składającą się na stan planszy sąsiada oraz path+neighbour.last_move
-        self.time = (default_timer - start_time) *1000           # oblicznie czasu potrzebny do rozwiązania problemu.
+        self.time = (default_timer - start_time) *1000                  # oblicznie czasu potrzebny do rozwiązania problemu.
         return None                                                     # zwrocenie wartość None, gdy problem nie może być rozwiązany.
 
 
