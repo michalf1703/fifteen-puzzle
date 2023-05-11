@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def summary_graph(data, nr_criterion, name_criterion, name_file, use_log_scale):
-    plt.clf()
+    plt.clf()   #czyszczenie poprzedniego wykresu
     # tworzenie list sum_astar, sum_bfs, sum_dfs
     sum_astar = []  # pierwsze dla ilości zliczonych obiektów, reszta to głębokość rozwiązania = index
     sum_bfs = []
@@ -374,13 +374,13 @@ bfs_graph(dataFrame, 1, "Długość rozwiązania", "bfs_dlugosc_rozwiazania", Fa
 
 summary_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "ogolne_odwiedzone", True)
 astar_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "astr_odwiedzone", False)
-bfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "bfs_odwiedzone", True)
-dfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych", "dfs_odwiedzone", True)
+bfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "bfs_odwiedzone", True)
+dfs_graph(dataFrame, 2, "Liczba stanów odwiedzonych w skali logarytmicznej", "dfs_odwiedzone", True)
 
 summary_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "ogolne_przetworzone", True)
 astar_graph(dataFrame, 3, "Liczba stanów przetworzonych", "astr_przetworzone", False)
-bfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "bfs_przetworzone", True)
-dfs_graph(dataFrame, 3, "Liczba stanów przetworzonych", "dfs_przetworzone", True)
+bfs_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "bfs_przetworzone", True)
+dfs_graph(dataFrame, 3, "Liczba stanów przetworzonych w skali logarytmicznej", "dfs_przetworzone", True)
 
 summary_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "ogolne_głębokość", False)
 astar_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "astr_głębokość", False)
@@ -389,5 +389,5 @@ dfs_graph(dataFrame, 4, "Maksymalna osiągnięta głębokość rekursji", "dfs_g
 
 summary_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms] w skali logarytmicznej", "ogolne_czas", True)
 astar_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms]", "astr_czas", False)
-bfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms]", "bfs_czas", True)
-dfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego [ms]", "dfs_czas", True)
+bfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms] w skali logarytmicznej", "bfs_czas", True)
+dfs_graph(dataFrame, 5, "Czas trwania procesu obliczeniowego[ms] w skali logarytmicznej", "dfs_czas", True)

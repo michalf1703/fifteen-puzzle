@@ -9,7 +9,7 @@ algorithm = sys.argv[1]                                         # wybór algoryt
 order = sys.argv[2]                                             # wybór metryki do heurystyki podany jako drugi argument przy wywołaniu skryptu
 with open(f"{sys.argv[3]}", "r") as f:                          # otwarcie pliku z puzzlem do rozwiązania
     rows, cols = np.fromfile(f, dtype=int, count=2, sep=" ")    # odczytanie wymiarów planszy z pliku
-    # odczytanie planszy z pliku i przekształcenie jej do postaci macierzy numpy
+                                                                # odczytanie planszy z pliku i przekształcenie jej do postaci macierzy numpy
     data = np.fromfile(f, dtype=int, count=rows * cols, sep=" ").reshape((rows, cols))
 list_puzzle = data.flatten().tolist()                           # przekształcenie planszy do postaci listy
 puzzle = puzzleBoard(cols, rows, list_puzzle, order)            # utworzenie instancji obiektu klasy PuzzleNode reprezentującego początkowe ułożenie puzzle'a
@@ -21,7 +21,7 @@ max_recursion = None
 
 if sys.argv[1] == "dfs":                                        # jeśli wybrany algorytm to DFS, to wykonujemy poniższy blok kodu
     dfs = dfs()                                                 # utworzenie instancji obiektu klasy dfs (implementacja algorytmu DFS)
-    result = dfs.dfs_start(puzzle)                                  # uruchomienie algorytmu DFS i zwrócenie znalezionego rozwiązania
+    result = dfs.dfs_start(puzzle)                              # uruchomienie algorytmu DFS i zwrócenie znalezionego rozwiązania
     algorithm_time = dfs.get_time()                             # odczytanie czasu wykonania algorytmu DFS
     visited_states, processed_states = dfs.get_states_count()   # odczytanie liczby odwiedzonych i przetworzonych stanów przez algorytm DFS
     max_recursion = dfs.get_max_depth()                         # odczytanie maksymalnej głębokości rekursji osiągniętej przez algorytm DFS
@@ -46,12 +46,12 @@ with open(f"solutions/{sys.argv[4]}", "w") as output_file:      # otwarcie pliku
     else:                                                       # jeśli nie udało się znaleźć rozwiązania, to zapisujemy informację o błędzie do pliku
         output_file.write("-1")
 
-with open(f"solutions/{sys.argv[5]}", "w") as output_file:      # Otwieramy plik wyjściowy, w którym zapiszemy wyniki.
-    if result is not None:                                      # W zależności od wartości zmiennej "result" wypisujemy długość ścieżki lub "-1".
+with open(f"solutions/{sys.argv[5]}", "w") as output_file:      # otworzenie plik wyjściowy, w którym zapiszemy wyniki.
+    if result is not None:                                      # w zależności od wartości zmiennej "result" wypisanie długość ścieżki lub "-1".
         output_file.write(f"{len(result)}\n")
     else:
-        output_file.write("-1\n")                               # Następnie zapisujemy ilość odwiedzonych i przetworzonych stanów, maksymalną rekursję oraz czas działania algorytmu.
-    output_file.write(f"{visited_states}\n")
-    output_file.write(f"{processed_states}\n")
-    output_file.write(f"{max_recursion}\n")
-    output_file.write(f"{algorithm_time}")
+        output_file.write("-1\n")                               # następnie zapisujemy ilość:
+    output_file.write(f"{visited_states}\n")                    # odwiedzonych stanów
+    output_file.write(f"{processed_states}\n")                  # przetworzonych stanów
+    output_file.write(f"{max_recursion}\n")                     # maksymalną rekursję
+    output_file.write(f"{algorithm_time}")                      # czas działania algorytmu (w milisekundach)

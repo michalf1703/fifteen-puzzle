@@ -14,7 +14,7 @@ class bfs:
     def get_states(self):
         return self.visited_states, self.processed_states
 
-    #get_time -->Zwraca czas wykonania algorytmu w sekundach, z dokładnością do 3 miejsc po przecinku
+    #get_time -->Zwraca czas wykonania algorytmu w milisekundach, z dokładnością do 3 miejsc po przecinku
     def get_time(self):
         return round(self.time, 3)
 
@@ -40,7 +40,7 @@ class bfs:
                 if neighbour.__hash__() not in self.visited:            # dodanie do kolejki, jeśli sąsiad nie był wcześniej odwiedzony.
                     self.visited.add(neighbour.__hash__())              # dodanie do listy stanów odwiedzonych
                     queue.append((neighbour, path + neighbour.last_move)) #dodanie do kolejki queue krotke, składającą się na stan planszy sąsiada oraz path+neighbour.last_move
-        self.time = (default_timer - start_time) *1000           # oblicznie czasu potrzebny do rozwiązania problemu.
+        self.time = (default_timer - start_time) *1000                  # oblicznie czasu potrzebny do rozwiązania problemu.
         return None                                                     # zwrocenie wartość None, gdy problem nie może być rozwiązany.
 
 

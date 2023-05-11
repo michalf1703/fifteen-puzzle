@@ -40,19 +40,19 @@ class dfs:
         if board.is_goal():                                                 # sprawdzenie czy plansza jest rozwiązana
             return self.path                                                # zwrócenie ścieżki do rozwiązania jeśli plansza jest rozwiązana
         self.visited[board.__hash__()] = board.depth                        # dodanie danego stanu do listy odwiedzonych, gdzie
-        board.move()                                                        # Przejście do następnego stanu planszy
+        board.move()                                                        # przejście do następnego stanu planszy
         for neighbor in board.get_neighbors():
-            self.visited_states += 1                                # Zwiększenie liczby odwiedzonych stanów planszy
-                                                                    # Sprawdzenie, czy sąsiednia plansza już została odwiedzona i czy ma mniejszą głębokość,
+            self.visited_states += 1                                # zwiększenie liczby odwiedzonych stanów planszy
+                                                                    # sprawdzenie, czy sąsiednia plansza już została odwiedzona i czy ma mniejszą głębokość,
                                                                     # jeśli tak, to nie wchodzimy do niej ponownie
             if (neighbor.__hash__() in self.visited and neighbor.depth < self.visited[
                 neighbor.__hash__()]) or neighbor.__hash__() not in self.visited:
-                self.path += neighbor.last_move                     # Dodaj ostatni ruch do ścieżki
-                result = self.solve(neighbor)                       # Rekurencyjne wywołanie dfs_solve dla sąsiedniej planszy
+                self.path += neighbor.last_move                     # dodanie ostatniego ruchu do ścieżki
+                result = self.solve(neighbor)                       # rekurencyjne wywołanie dfs_solve dla sąsiedniej planszy
                 if result is not None:
-                    return result                                   # Jeśli udało się znaleźć rozwiązanie, zwróć ścieżkę prowadzącą do rozwiązania
-                self.path = self.path[:-1]                          # Usuń ostatni ruch z ścieżki
-        return None                                                 # Jeśli nie udało się znaleźć rozwiązania, zwróć None
+                    return result                                   # jeśli udało się znaleźć rozwiązanie, zwróć ścieżkę prowadzącą do rozwiązania
+                self.path = self.path[:-1]                          # usunięcie ostatniego ruchu ze ścieżki
+        return None                                                 # jeśli nie udało się znaleźć rozwiązania, zwróć None
 
 #licznik stanów przetworzonych zwiększa licznik o 1 za każdym razem, gdy algorytm odwiedza nowy stan i próbuje znaleźć rozwiązanie
 #stany przetworzone - stany, które dfs przetworzył: analizował możliwe ruchy, szukał rozwiązania, a następnie przechodził do kolejnych stanów, jeśli nie znalazł rozwiązania

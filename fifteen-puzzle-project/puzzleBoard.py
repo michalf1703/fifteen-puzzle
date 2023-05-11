@@ -111,6 +111,6 @@ class puzzleBoard:
         else:
             return self.manhattan_metric()                                                      # w przeciwnym wypadku zwraca wynik manhattan_heuristic()
 
-    def __lt__(self, other):
+    def __lt__(self, other):                    #stworzona do porównywania
         return True
 
