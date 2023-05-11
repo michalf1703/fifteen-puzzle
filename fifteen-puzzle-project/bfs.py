@@ -32,7 +32,7 @@ class bfs:
                 self.max_depth_reached = current_board_state.depth
             self.processed_states += 1                                  # zwiekszenie licznika przetworzonych stanów.
             if current_board_state.is_goal():                           # sprawdzenie, czy bieżący stan planszy jest rozwiązaniem.
-                self.time = (default_timer() - start_time) *1000   # obliczenie czasu potrzebnego do rozwiązania problemu.
+                self.time = (default_timer() - start_time) *1000        # obliczenie czasu potrzebnego do rozwiązania problemu.
                 return path                                             # zwrócenie ścieżki do rozwiązania.
             current_board_state.move()                                  # wykonanie ruchu na planszy.
             for neighbour in current_board_state.get_neighbors():       # sprawdzenie sąsiadów bieżącego stanu planszy.
